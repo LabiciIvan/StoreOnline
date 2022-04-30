@@ -1,0 +1,186 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use App\Models\Products;
+use App\Models\Orders;
+use App\Http\Requests\StoreOrders;
+
+class UserController extends Controller
+{
+    public function index() {
+
+        return view('user.index', ['products' => Products::all()]);
+    }
+
+    public function show($id) {
+
+        return view('user.show', ['product' => Products::with('reviews')->findOrFail($id), 'reviews' => Products::withCount('reviews')->findOrFail($id)]);
+    }
+
+    public function addCartIndex($id) {
+
+        $product = Products::findOrFail($id);
+        $notAdded = true;
+        $quantity = 1;
+
+        if ($product->stock == 0) {
+
+            Session::flash('outStock', 'Item out of Stock');
+
+            return redirect()->route('user.index');
+        }
+
+        $toSession = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->price,
+            'stock' => $product->stock,
+            'quantity' => $quantity,
+            'totalPrice' => $quantity * $product->price
+
+        ];
+
+        if(Session::has('product')) {
+            foreach(Session::get('product') as $key => $value) {
+                if($value['id'] == $id) {
+                    ++$value['quantity'];
+                    $value['totalPrice'] = $value['quantity'] * $value['price'];
+                    $notAdded = false;
+                    Session::put('product.'.$key, $value);
+                    Session::flash('status', 'Item increased in your cart!');
+                }
+            }
+        }
+        if($notAdded) {
+            Session::push('product',  $toSession);
+            Session::flash('status', 'Item added to cart');
+        }
+
+        return redirect()->route('user.index');
+    }
+
+    public function addCartShow($id) {
+        $product = Products::findOrFail($id);
+        $notAdded = true;
+        $quantity = 1;
+
+        if ($product->stock == 0) {
+
+            Session::flash('outStock', 'Item out of Stock');
+
+            return redirect()->route('user.show', $product->id);
+        }
+
+        $toSession = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->price,
+            'stock' => $product->stock,
+            'quantity' => $quantity,
+            'totalPrice' => $quantity * $product->price
+
+        ];
+
+        if(Session::has('product')) {
+            foreach(Session::get('product') as $key => $value) {
+                if($value['id'] == $id) {
+                    ++$value['quantity'];
+                    $value['totalPrice'] = $value['quantity'] * $value['price'];
+                    $notAdded = false;
+                    Session::put('product.'.$key, $value);
+                    Session::flash('status', 'Item increased in your cart!');
+                }
+            }
+        }
+        if($notAdded) {
+            Session::push('product',  $toSession);
+            Session::flash('status', 'Item added to cart');
+        }
+
+        return redirect()->route('user.show', $product->id);
+    }
+
+
+    public function viewCart() {
+
+        $element = Session::get('product');
+        $total = 0;
+
+       if($element) {
+        foreach ($element as $key => $value) {
+            $total += $value['price'] * $value['quantity'];
+        }
+       }
+
+        return view('user.cart',['element' => $element, 'total' => $total]);
+    }
+
+    public function checkOut() {
+
+        $productsOrdered= ""; 
+        $totalPrice = 0;
+        foreach (Session::get('product') as $key => $value) {
+            $productsOrdered .= $value['name'] .  " " . $value['quantity'] . "|";
+            $totalPrice += $value['price'] * $value['quantity'];
+        }
+        return view('user.checkout', ['products' => Session::get('product'), 'productsOrdered' => $productsOrdered, 'totalPrice'=>$totalPrice]);
+    }
+
+    public function placeOrder(StoreOrders $request) {
+
+        $validateInput = $request->validated();
+
+        Orders::create($validateInput);
+
+        foreach (Session::get('product') as $key => $value) {
+            $product =  Products::findOrFail($value['id']);
+            $product->stock = $product->stock - $value['quantity'];
+            $product->save();
+        }
+
+        Session::flush();
+        Session::flash('status', 'Your order is placed, thanks for shoping at Store Online');
+        return redirect()->route('user.viewCart');
+    }
+
+    public function increaseQuantity($id) {
+
+        foreach (Session::get('product') as $key => $value) {
+            if($value['id'] == $id) {
+                ++$value['quantity'];
+                $value['totalPrice'] = $value['quantity'] * $value['price'];
+                Session::put('product.'.$key, $value);
+            }   
+        }
+        return redirect()->route('user.viewCart');
+    }
+
+    public function decreaseQuantity($id) {
+
+        foreach (Session::get('product') as $key => $value) {
+            if($value['id'] == $id && $value['quantity'] > 1) {
+                --$value['quantity'];
+                $value['totalPrice'] = $value['quantity'] * $value['price'];    
+                Session::put('product.'.$key, $value);
+            }
+        }
+        return redirect()->route('user.viewCart');
+    }
+
+    public function removeFromCart($id) {
+
+        foreach (Session::get('product') as $key => $value) {
+            if($value['id'] == $id) {
+                Session::pull('product.'.$key);
+            }
+        }
+        return redirect()->route('user.viewCart');
+    }
+
+    public function contact() {
+        return view('user.contact', ['products' => Products::all()->take(4)]);
+    }
+}
