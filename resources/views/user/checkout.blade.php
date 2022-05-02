@@ -49,25 +49,46 @@
           @csrf
 
           <label for="name">Full Name</label>
-          <input type="text" name="name" id="name"  class="form-control" value="{{ old('name') }}">
+          <input type="text" name="name" id="name"  class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}">
+          @if($errors->has('name'))
+            <span class="invalid-feedback">
+              <strong>
+                {{ $errors->first('name') }}
+              </strong>
+            </span>
+          @endif
 
           <label for="phone">Phone</label>
-          <input type="text" name="phone" id="phone"  class="form-control" value="{{ old('phone') }}">
+          <input type="text" name="phone" id="phone"  class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}">
+          @if($errors->has('phone'))
+          <span class="invalid-feedback">
+            <strong>
+              {{ $errors->first('phone') }}
+            </strong>
+          </span>
+        @endif
 
           <label for="address">Address</label>
-          <textarea name="address" id="address" class="form-control" value="{{ old('address') }}"></textarea>
-        
+          <textarea name="address" id="address" class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" value="{{ old('address') }}"></textarea>
+              @if($errors->has('address'))
+            <span class="invalid-feedback">
+              <strong>
+                {{ $errors->first('address') }}
+              </strong>
+            </span>
+          @endif 
+
           <input type="hidden" value="{{ $productsOrdered }}" class="form-control" name="order">
 
           <input type="hidden" value="{{ $totalPrice}}" class="form-control" name="totalPrice">
 
           <input class="btn btn-warning m-3" type="submit" value="Place Order">
-          @if($errors->any())
+          {{-- @if($errors->any())
             @foreach ($errors->all() as $error )
               <h6>{{ $error }}</h6>
             @endforeach
           
-          @endif
+          @endif --}}
         </form>
       </div>
     </div>

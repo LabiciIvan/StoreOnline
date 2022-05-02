@@ -25,7 +25,7 @@ class StoreOrders extends FormRequest
     {
         return [
             'name' => 'bail|required|min:1',
-            'phone' => 'bail|required|min:1',
+            'phone' => 'bail|required|min:1|numeric',
             'address' => 'bail|required|min:1',
             'order' => 'bail|required|min:1',
             'totalPrice' => 'bail|required|min:1',

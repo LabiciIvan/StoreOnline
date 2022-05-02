@@ -18,7 +18,9 @@
           <h4 class="alert alert-danger w-25 me-2 justify-content-center"> {{  Session::get('outStock') }}</h4>  
 
         @else 
-
+          {{-- @if($errors->has('name'))
+            {{ $errors->first('name') }}
+          @endif --}}
           <h4 class="d-flex w-25 flex-row-reverse me-2 align-items-center border-2 border-end border-warning p-2">Welcome to Store-Online</h4>
 
         @endif
@@ -27,7 +29,14 @@
           <form class="ms-2 w-100 d-flex flex-row" role="search" action="{{ route('user.searchForProducts') }}" method="POST">
             @csrf
             @method('GET')
-            <input class="form-control w-25 me-2"  type="text" name="name">
+            <input class="form-control w-25 me-2 {{ $errors->has('name') ? ' is-invalid' : '' }}"  type="text" name="name">
+            {{-- @if ($errors->has('name'))
+              <span class="invalid-feedback">
+                <strong>
+                  {{ $errors->first('name') }}
+                </strong>
+              </span>
+            @endif --}}
             <input class="btn btn-warning w-25 fw-bold" type="submit" value="Search">
           </form>
         </div>
