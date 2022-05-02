@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Orders;
 use App\Http\Requests\StoreOrders;
+use App\Http\Requests\StoreProduct;
 
 class UserController extends Controller
 {
@@ -178,6 +179,25 @@ class UserController extends Controller
             }
         }
         return redirect()->route('user.viewCart');
+    }
+
+    public function searchForProducts(Request $request) {
+
+        $search = $request->validate([
+            'name' => 'bail|required|min:1'
+        ]);
+
+        $found = Products::where( 'name', 'Like', '%' .$search['name']. '%')->get();
+
+        if($found->isEmpty()) {
+
+            Session::flash('status', 'not found');
+            return redirect()->route('user.index');
+        }
+
+     
+
+        return view('user.search',['found' => $found]);
     }
 
     public function contact() {

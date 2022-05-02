@@ -4,24 +4,33 @@
 
 @section('content')
 
-  <div class="d-flex flex-column w-100 h-100 mt-4">
+  <div class="d-flex flex-column w-100 h-100 ">
       
-    <div class="d-flex flex-row w-100 h-10 justify-content-center mt-2 bg-light shadow p-2">
+    <div class="d-flex flex-column w-100 h-25 justify-content-center mt-2 bg-light shadow p-2" >
 
-      <div class="d-flex w-75 flex-row justify-content-center">
+      <div class="d-flex w-100 flex-row justify-content-end" style="height: 50px;">
         @if (Session::has('status'))
 
-          <h4 class="alert alert-success "> {{  Session::get('status') }}</h4>  
+          <h4 class="alert alert-success h-100 w-25 me-2 d-flex justify-content-center align-items-center"> {{  Session::get('status') }}</h4>  
 
         @elseif (Session::has('outStock'))  
 
-        <h4 class="alert alert-danger"> {{  Session::get('outStock') }}</h4>  
+          <h4 class="alert alert-danger w-25 me-2 justify-content-center"> {{  Session::get('outStock') }}</h4>  
 
         @else 
 
-          <h4>Welcome to Store-Online</h4>
+          <h4 class="d-flex w-25 flex-row-reverse me-2 align-items-center border-2 border-end border-warning p-2">Welcome to Store-Online</h4>
 
         @endif
+        <div class="d-flex w-50 flex-column">
+
+          <form class="ms-2 w-100 d-flex flex-row" role="search" action="{{ route('user.searchForProducts') }}" method="POST">
+            @csrf
+            @method('GET')
+            <input class="form-control w-25 me-2"  type="text" name="name">
+            <input class="btn btn-warning w-25 fw-bold" type="submit" value="Search">
+          </form>
+        </div>
       </div>
     </div>
   </div>

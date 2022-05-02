@@ -29,9 +29,8 @@ Route::put('/admin/product/updateProduct{id}', [AdminController::class, 'updateP
 Route::delete('/admin/product/deleteReview{idReview}{idProduct}', [AdminController::class, 'deleteReview'])
     ->name('admin.deleteReview');
 
-Route::post('admin/product/addProduct', [AdminController::class, 'addProduct'])
+Route::post('/admin/product/addProduct', [AdminController::class, 'addProduct'])
     ->name('admin.addProduct');
-
 
 Route::delete('/admin/product/deleteProduct{id}', [AdminController::class, 'deleteProduct'])
     ->name('admin.deleteProduct');
@@ -62,6 +61,9 @@ Route::post('/user/decreaseQuantity{id}', [UserController::class, 'decreaseQuant
 
 Route::delete('/user/removeFromCart{id}', [UserController::class, 'removeFromCart'])
     ->name('user.removeFromCart');
+    
+Route::get('/user/searchForProducts', [UserController::class, 'searchForProducts'])
+    ->name('user.searchForProducts');
 
 Route::get('/user/checkout', [UserController::class, 'checkOut'])
     ->name('user.checkout');
