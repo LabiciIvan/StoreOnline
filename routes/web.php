@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +17,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-
+Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'product'])
     ->name('admin.product');
@@ -76,3 +78,12 @@ Route::get('/user/contact', [UserController::class, 'contact'])
 
 Route::post('/user/show/review{id}', [ReviewController::class, 'storeReview'])
     ->name('user.review');
+
+Route::get('/user/profile', [UserController::class, 'profile'])
+    ->name('user.profile');
+
+Route::get('/user/history', [UserController::class, 'history'])
+    ->name('user.history');
+
+Route::put('/user/updateProfile', [UserController::class, 'updateProfile'])
+    ->name('user.updateProfile');

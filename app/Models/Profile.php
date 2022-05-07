@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reviews extends Model
+class Profile extends Model
 {
     protected $fillable = [
-        'review'
+        'phone',
+        'street',
+        'country'
     ];
 
-    public function products() {
-        return $this->belongsTo('App\Models\Products');
-    }
-
     public function user() {
+
         return $this->belongsTo('App\Models\User');
     }
-
     use HasFactory;
 }

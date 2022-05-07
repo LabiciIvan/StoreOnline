@@ -54,7 +54,7 @@
         @foreach ($product->reviews as $review )
         <span class="d-flex flex-column  text-muted m-4  list-group-item list-group-item-primary rounded-2">
           {{ $review->created_at }}
-          <div class=" m-1  list-group-item list-group-item-primary">
+          <div class=" m-1  list-group-item list-group-item-primary text-break">
             {{ $review->review }}
 
             <form  class="m-2" action="{{ route('admin.deleteReview', [$review->id, $product->id]) }}" method="POST">

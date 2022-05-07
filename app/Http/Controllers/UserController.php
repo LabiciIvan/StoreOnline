@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Orders;
+use App\Models\User;
 use App\Http\Requests\StoreOrders;
 use App\Http\Requests\StoreProduct;
-
+use App\Http\Requests\StoreProfile;
 class UserController extends Controller
 {
     public function index() {
@@ -134,7 +136,15 @@ class UserController extends Controller
 
         $validateInput = $request->validated();
 
-        Orders::create($validateInput);
+        // dd(Auth::check());
+        $order = Orders::create($validateInput);
+
+        if(Auth::check()) {
+
+            $order->user_id = auth::user()->id;
+            $order->save();
+
+        }
 
         foreach (Session::get('product') as $key => $value) {
             $product =  Products::findOrFail($value['id']);
@@ -142,7 +152,8 @@ class UserController extends Controller
             $product->save();
         }
 
-        Session::flush();
+        // Session::flush(); if using flush it will delete session and logut user NOT GOOD
+        Session::forget('product');
         Session::flash('status', 'Your order is placed, thanks for shoping at Store Online');
         return redirect()->route('user.viewCart');
     }
@@ -195,12 +206,35 @@ class UserController extends Controller
             return redirect()->route('user.index');
         }
 
-     
-
         return view('user.search',['found' => $found]);
     }
 
     public function contact() {
         return view('user.contact', ['products' => Products::all()->take(4)]);
+    }
+
+    public function profile() {
+        return view('user.profile');
+    }
+
+    public function updateProfile(StoreProfile $request) {
+        
+        $input =  $request->validated();
+        
+        $user = User::findOrFail(auth::user()->id);
+
+        $user->profile->fill($input);
+        // dd($user->profile);
+        $user->profile->save();
+
+        return redirect()->route('user.profile');
+    }
+
+    public function history() {
+
+        $userOrders = User::with('order')->whereKey(auth::user()->id)->first();
+
+        // dd($userOrders->order);
+        return view('user.history', ['orders' => $userOrders]);
     }
 }

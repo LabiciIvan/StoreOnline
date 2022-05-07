@@ -48,8 +48,16 @@
         <form class="d-flex flex-column w-75 h-100 align-items-center" action="{{ route('user.placeOrder') }}" method="POST">
           @csrf
 
+          @guest
           <label for="name">Full Name</label>
           <input type="text" name="name" id="name"  class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}">
+
+          @else
+          <label for="name">Full Name</label>
+          <input type="text" name="name" id="name"  class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ Auth::user()->name }}">
+
+          @endguest
+
           @if($errors->has('name'))
             <span class="invalid-feedback">
               <strong>
@@ -58,8 +66,15 @@
             </span>
           @endif
 
+                    
+          @guest
           <label for="phone">Phone</label>
           <input type="text" name="phone" id="phone"  class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}">
+          @else
+          <label for="phone">Phone</label>
+          <input type="text" name="phone" id="phone"  class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}"  value="{{ Auth::user()->profile->phone }}">
+          @endguest
+          {{-- {{ Auth::user()->profile->phone }} --}}
           @if($errors->has('phone'))
           <span class="invalid-feedback">
             <strong>
@@ -68,8 +83,14 @@
           </span>
         @endif
 
-          <label for="address">Address</label>
-          <textarea name="address" id="address" class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" value="{{ old('address') }}"></textarea>
+
+        @guest
+        <label for="address">Address</label>
+        <textarea name="address" id="address" class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" value="{{ old('address') }}"></textarea>
+        @else
+        <label for="address">Address</label>
+        <textarea name="address" id="address" class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" >{{ Auth::user()->profile->country }}</textarea>
+        @endguest
               @if($errors->has('address'))
             <span class="invalid-feedback">
               <strong>

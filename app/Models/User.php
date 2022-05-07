@@ -10,6 +10,23 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
+    public function profile() {
+
+        return $this->hasOne('App\Models\Profile');
+    }
+
+    
+    public function order() {
+
+        return $this->hasMany('App\Models\Orders');
+    }
+
+    public function review() {
+        
+        return $this->hasMany('App\Models\Reviews');
+    }
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -21,6 +38,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        // 'phone',
+        // 'street',
+        // 'country'
     ];
 
     /**

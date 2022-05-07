@@ -12,6 +12,13 @@ use App\Http\Requests\StoreProduct;
 class AdminController extends Controller
 {
 
+    public function __construct()
+    {
+    
+         $this->middleware('auth');
+         $this->middleware('admin');
+    }
+
     public function product() {
 
         return view('admin.product', ['products' => Products::all()]);
