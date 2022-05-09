@@ -79,6 +79,9 @@ Route::get('/user/contact', [UserController::class, 'contact'])
 Route::post('/user/show/review{id}', [ReviewController::class, 'storeReview'])
     ->name('user.review');
 
+Route::delete('/user/removeReview{idReview}', [ReviewController::class, 'removeReview'])
+    ->name('user.removeReview');
+
 Route::get('/user/profile', [UserController::class, 'profile'])
     ->name('user.profile');
 

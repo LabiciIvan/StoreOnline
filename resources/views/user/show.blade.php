@@ -89,26 +89,49 @@
             <div class="d-flex flex-column w-100 h-100 ">
                 @foreach ($product->reviews as $review)
                     <ul class="list-group m-4 w-25">
-
                         <li class="list-group-item list-group-item-primary w-100">
-                            <span class="d-flex flew-row-reverse text-muted">{{ $review->created_at }} by
-                                {{ $review->user->name }}</span>
+                            <span class="d-flex flex-row-between text-muted  w-100">
+                                <div class="d-flex w-100 align-items-center p-1">
+
+                                    {{ $review->created_at }} by
+                                    {{ $review->user->name }}
+
+                                </div>
+                                {{-- @if(Auth::check() && Auth::user()->id == $review->user_id) --}}
+
+
+                                <form class="d-flex w-25 justify-content-center" action="{{ route('user.removeReview', $review->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-link text-decoration-none w-100 h-100 text-muted" type="submit">x</button>
+                                </form>
+                                {{-- @endif --}}
+                            </span>
                         <li class="container d-flex list-group-item list-group-item-primary w-100 text-break">
-                          {{ $review->review }}
+                            {{ $review->id }}
+                            {{ $review->review }}
                         </li>
                         </li>
 
                     </ul>
                 @endforeach
-                    {{-- @guest
-                    @else --}}
-                <form class="d-flex justify-content-center w-50 m-4  bg-light rounded-2 shadow p-2"
-                    action="{{ route('user.review', $product['id']) }}" method="POST">
-                    @csrf
-                    <textarea class="m-1 form-control w-100" name="review"></textarea>
-                    <input class="btn btn-primary m-2" type="submit" value="Add review">
-                </form>
-                {{-- @endguest --}}
+                @guest
+                    <div class="d-flex flex-row ms-1 align-items-center bg-secondary rounded-2 w-25 ">
+                        <a class="btn btn-warning me-1 text-white fw-bold rounded-0" href="{{ route('login') }}">
+                            Log-In
+                        </a>
+                        <span class="d-flex ms-2 align-items-center text-white  p-1  h-25">
+                            to add a review
+                        </span>
+                    </div>
+                @else
+                    <form class="d-flex justify-content-center w-50 m-4  bg-light rounded-2 shadow p-2"
+                        action="{{ route('user.review', $product['id']) }}" method="POST">
+                        @csrf
+                        <textarea class="m-1 form-control w-100" name="review"></textarea>
+                        <input class="btn btn-primary m-2" type="submit" value="Add review">
+                    </form>
+                @endguest
             </div>
 
         </div>

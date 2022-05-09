@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Reviews;
 use App\Http\Requests\StoreReview;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 
 class ReviewController extends Controller
@@ -32,6 +34,23 @@ class ReviewController extends Controller
 
         return redirect()->route('user.show', $id);
 
+    }
+
+    public function removeReview($idReview) {
+        
+        $review = Reviews::findOrFail($idReview);
+        
+        
+        // dd($user);
+        
+        if (Gate::denies('delete-review', $review)) {
+                abort(403);
+            }
+            
+            // dd($review);
+            $review->delete();
+            
+        return redirect()->route('user.index');
     }
 
 }

@@ -48,7 +48,7 @@
     @if($products)
       <div class="d-flex w-75 h-100 flex-wrap mt-4 border-3 border-start border-warning ">
         @foreach ($products as $product )
-        <div class="d-flex flex-column border m-4 bg-light rounded-1 shadow " style="width:170px; height:300px;">
+        <div class="d-flex flex-column border m-4 bg-light rounded-1 shadow p-1 " style="width:170px; height:315px;">
           <a class="d-flex flex-column align-items-center w-100" style="height: 270px;" href="{{ route('user.show', $product['id']) }}">
             <div class="d-flex flex-column align-items-center justify-content-center w-100" style="height: 220px;">
               Image
@@ -61,7 +61,7 @@
               <h4>Lei</h4>
             </div>
           </a>
-          <form class="d-flex flex-row justify-content-center w-100" style="height: 30px" action="{{ route('user.index.addCart', $product->id) }}" method="POST">
+          <form class="d-flex flex-row justify-content-center w-100 mt-1 " style="height: 30px" action="{{ route('user.index.addCart', $product->id) }}" method="POST">
             @csrf
             <input class="btn btn-warning w-100 h-100 text-white fw-bold" type="submit" value="Add Cart">
           </form>
