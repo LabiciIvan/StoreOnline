@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +17,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-
+Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'product'])
     ->name('admin.product');
@@ -26,12 +28,11 @@ Route::get('/admin/productDetails{id}', [AdminController::class, 'productDetails
 Route::put('/admin/product/updateProduct{id}', [AdminController::class, 'updateProduct'])
     ->name('admin.updateProduct');
 
-Route::delete('/admin/product/deleteReview{idReview}{idProduct}', [AdminController::class, 'deleteReview'])
+Route::delete('/admin/product/deleteReview{idReview}/{idProduct}', [AdminController::class, 'deleteReview'])
     ->name('admin.deleteReview');
 
-Route::post('admin/product/addProduct', [AdminController::class, 'addProduct'])
+Route::post('/admin/product/addProduct', [AdminController::class, 'addProduct'])
     ->name('admin.addProduct');
-
 
 Route::delete('/admin/product/deleteProduct{id}', [AdminController::class, 'deleteProduct'])
     ->name('admin.deleteProduct');
@@ -62,6 +63,9 @@ Route::post('/user/decreaseQuantity{id}', [UserController::class, 'decreaseQuant
 
 Route::delete('/user/removeFromCart{id}', [UserController::class, 'removeFromCart'])
     ->name('user.removeFromCart');
+    
+Route::get('/user/searchForProducts', [UserController::class, 'searchForProducts'])
+    ->name('user.searchForProducts');
 
 Route::get('/user/checkout', [UserController::class, 'checkOut'])
     ->name('user.checkout');
@@ -74,3 +78,15 @@ Route::get('/user/contact', [UserController::class, 'contact'])
 
 Route::post('/user/show/review{id}', [ReviewController::class, 'storeReview'])
     ->name('user.review');
+
+Route::delete('/user/removeReview{idReview}/{idProduct}', [ReviewController::class, 'removeReview'])
+    ->name('user.removeReview');
+
+Route::get('/user/profile', [UserController::class, 'profile'])
+    ->name('user.profile');
+
+Route::get('/user/history', [UserController::class, 'history'])
+    ->name('user.history');
+
+Route::put('/user/updateProfile', [UserController::class, 'updateProfile'])
+    ->name('user.updateProfile');

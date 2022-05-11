@@ -48,26 +48,68 @@
         <form class="d-flex flex-column w-75 h-100 align-items-center" action="{{ route('user.placeOrder') }}" method="POST">
           @csrf
 
+          @guest
           <label for="name">Full Name</label>
-          <input type="text" name="name" id="name"  class="form-control" value="{{ old('name') }}">
+          <input type="text" name="name" id="name"  class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}">
 
+          @else
+          <label for="name">Full Name</label>
+          <input type="text" name="name" id="name"  class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ Auth::user()->name }}">
+
+          @endguest
+
+          @if($errors->has('name'))
+            <span class="invalid-feedback">
+              <strong>
+                {{ $errors->first('name') }}
+              </strong>
+            </span>
+          @endif
+
+                    
+          @guest
           <label for="phone">Phone</label>
-          <input type="text" name="phone" id="phone"  class="form-control" value="{{ old('phone') }}">
+          <input type="text" name="phone" id="phone"  class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}">
+          @else
+          <label for="phone">Phone</label>
+          <input type="text" name="phone" id="phone"  class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}"  value="{{ Auth::user()->profile->phone }}">
+          @endguest
+          {{-- {{ Auth::user()->profile->phone }} --}}
+          @if($errors->has('phone'))
+          <span class="invalid-feedback">
+            <strong>
+              {{ $errors->first('phone') }}
+            </strong>
+          </span>
+        @endif
 
-          <label for="address">Address</label>
-          <textarea name="address" id="address" class="form-control" value="{{ old('address') }}"></textarea>
-        
+
+        @guest
+        <label for="address">Address</label>
+        <textarea name="address" id="address" class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" value="{{ old('address') }}"></textarea>
+        @else
+        <label for="address">Address</label>
+        <textarea name="address" id="address" class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" >{{ Auth::user()->profile->country }}</textarea>
+        @endguest
+              @if($errors->has('address'))
+            <span class="invalid-feedback">
+              <strong>
+                {{ $errors->first('address') }}
+              </strong>
+            </span>
+          @endif 
+
           <input type="hidden" value="{{ $productsOrdered }}" class="form-control" name="order">
 
           <input type="hidden" value="{{ $totalPrice}}" class="form-control" name="totalPrice">
 
           <input class="btn btn-warning m-3" type="submit" value="Place Order">
-          @if($errors->any())
+          {{-- @if($errors->any())
             @foreach ($errors->all() as $error )
               <h6>{{ $error }}</h6>
             @endforeach
           
-          @endif
+          @endif --}}
         </form>
       </div>
     </div>

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\Cart;
 use Illuminate\Support\ServiceProvider;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(Cart::class, function ($app) {
+
+            return new Cart();
+        });
     }
 }

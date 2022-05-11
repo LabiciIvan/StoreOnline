@@ -2,91 +2,146 @@
 
 
 @section('title')
-  {{ $product['name'] }}
+    {{ $product['name'] }}
 @endsection
 
 @section('content')
-  <div class="d-flex flex-column w-100 h-100 mt-4">
+    <div class="d-flex flex-column w-100 h-100 mt-4">
 
-    <div class="d-flex flex-row w-100 h-10 justify-content-between mt-2 bg-light shadow p-2">
-      <a class="d-flex flex-row w-25 border-2 border-end justify-content-center btn btn-link" href="{{ route('user.index') }}">Back</a>
+        <div class="d-flex flex-row w-100 h-10 justify-content-between mt-2 bg-light shadow p-2">
+            <a class="d-flex flex-row w-25 border-2 border-end justify-content-center btn btn-link"
+                href="{{ route('user.index') }}">Back</a>
 
-      <div class="d-flex w-75 flex-row ms-4 align-items-center">
-        <h4>{{ $product['name'] }}</h4>
-      </div>
-    </div>
-
-    <div class="d-flex flex-row w-100 h-100 mt-4 justify-content-center">
-
-      <div class="d-flex flex-row justify-content-center w-50  m-3 shadow bg-light rounded-2">
-        <div class="d-flex justify-content-center bg-warning w-75  align-items-center">
-          <img  class="d-flex w-75 h-75  justify-content-center" src="" alt="Can't display image ">
-        </div>
-      </div>
-      
-      <div class="d-flex flex-column w-25 m-3 shadow bg-light align-items-center justify-content-center rounded-2" style="height: 400px;">
-
-        <div class="d-flex flex-column w-100 h-75 align-items-center">
-
-          <div class="d-flex flex-column w-100 h-50  justify-content-center border-bottom ms-4">
-            <div class="d-flex flex-row w-100 align-items-center">
-              <h4 >{{ $product['name'] }}</h4>
-              <h5 class="ms-4">{{ $product['price'] }} Lei</h5>
+            <div class="d-flex w-75 flex-row ms-4 align-items-center">
+                <h4>{{ $product['name'] }}</h4>
             </div>
-            <h5 class="text-muted">reviews {{ $reviews->reviews_count }}</h5>
-            <h5>Store-Online</h5>
-          </div>
-
-          <div class="d-flex flex-row justify-content-center align-items-center w-100 h-50 border-bottom">
-
-              <h6 class="alert alert-primary">{{ $product['stock'] }} <h5 class="ms-2">Available in Store</h5> </h6>
-          
-          </div>
         </div>
 
-        <div class="d-flex w-100 h-25 justify-content-center align-items-center">
-          <form class="d-flex flex-column justify-content-center h-50 w-100 align-items-center" action="{{ route('user.show.addCart', $product->id) }}" method="POST">
-            @csrf
-            @if(Session::has('status'))
-              <div class="d-flex align-items-center alert alert-success h-25">{{ Session::get('status') }}</div>
-            @elseif(Session::has('outStock'))
-              <div class="d-flex align-items-center alert alert-danger h-25">{{ Session::get('outStock') }}</div>
-            @endif
-            <input class="btn btn-warning w-50 text-white fw-bold" type="submit" value="Add cart">
-          </form>
+        <div class="d-flex flex-row w-100 h-100 mt-4 justify-content-center">
+
+            <div class="d-flex flex-row justify-content-center w-50  m-3 shadow bg-light rounded-2">
+                <div class="d-flex justify-content-center bg-warning w-75  align-items-center">
+                    <img class="d-flex w-75 h-75  justify-content-center" src="" alt="Can't display image ">
+                </div>
+            </div>
+
+            <div class="d-flex flex-column w-25 m-3 shadow bg-light align-items-center justify-content-center rounded-2"
+                style="height: 400px;">
+
+                <div class="d-flex flex-column w-100 h-75 align-items-center">
+
+                    <div class="d-flex flex-column w-100 h-50  justify-content-center border-bottom ms-4">
+                        <div class="d-flex flex-row w-100 align-items-center">
+                            <h4>{{ $product['name'] }}</h4>
+                            <h5 class="ms-4">{{ $product['price'] }} Lei</h5>
+                        </div>
+                        <h5 class="text-muted">reviews {{ $reviews->reviews_count }}</h5>
+                        <h5>Store-Online</h5>
+                    </div>
+
+                    <div class="d-flex flex-row justify-content-center align-items-center w-100 h-50 border-bottom">
+
+                        <h6 class="alert alert-primary">{{ $product['stock'] }} <h5 class="ms-2">Available in
+                                Store</h5>
+                        </h6>
+
+                    </div>
+                </div>
+
+                <div class="d-flex w-100 h-25 justify-content-center align-items-center">
+                    <form class="d-flex flex-column justify-content-center h-50 w-100 align-items-center"
+                        action="{{ route('user.show.addCart', $product->id) }}" method="POST">
+                        @csrf
+                        @if (Session::has('status'))
+                            <div class="d-flex align-items-center alert alert-success h-25">{{ Session::get('status') }}
+                            </div>
+                        @elseif(Session::has('outStock'))
+                            <div class="d-flex align-items-center alert alert-danger h-25">{{ Session::get('outStock') }}
+                            </div>
+                        @endif
+                        <input class="btn btn-warning w-50 text-white fw-bold" type="submit" value="Add cart">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column w-100 h-100 mt-4 align-items-center">
+
+        <div class="d-flex w-100 h-100 justify-content-center">
+            <h4 class="d-flex  w-75 justify-content-center  bg-light rounded-1 shadow">Description</h4>
         </div>
 
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex flex-column w-100 h-100 mt-4 align-items-center">
-
-    <div class="d-flex w-100 h-100 justify-content-center">
-      <h4 class="d-flex  w-75 justify-content-center  bg-light rounded-1 shadow">Reviews</h4>
+        <div class="d-flex flex-row flex-wrap w-25 h-50">
+            <h4>{{ $product->description }}</h4>
+        </div>
     </div>
 
-    <div class="d-flex flex-column align-items-center w-75 h-100 border-start border-warning border-2 ">
+    <div class="d-flex flex-column w-100 h-100 mt-4 align-items-center">
 
-      <div class="d-flex flex-column w-100 h-100 ">
-        @foreach ($product->reviews as $review)
-        <ul class="list-group m-4 w-25">
-      
-            <li class="list-group-item list-group-item-primary">
-              <span class="d-flex flew-row-reverse text-muted">{{ $review->created_at }}</span>
-              <li class="list-group-item list-group-item-primary">{{ $review->review }}</li>
-            </li>
-      
-        </ul>
-        @endforeach
-        
-              <form class="d-flex justify-content-center w-50 m-4  bg-light rounded-2 shadow p-2" action="{{ route('user.review', $product['id']) }}" method="POST">
-                @csrf
-                <textarea class="m-1 form-control w-100" name="review"></textarea>
-                <input class="btn btn-primary m-2" type="submit" value="Add review">
-              </form>
-      </div>    
-      
+        <div class="d-flex w-100 h-100 justify-content-center">
+            <h4 class="d-flex  w-75 justify-content-center  bg-light rounded-1 shadow">Reviews</h4>
+        </div>
+
+        <div class="d-flex flex-column align-items-center w-75 h-100 border-start border-warning border-2 ">
+
+            <div class="d-flex flex-column w-100 h-100 ">
+                @foreach ($product->reviews as $review)
+                    <ul class="list-group m-4 w-25">
+                        <li class="list-group-item list-group-item-primary w-100">
+                            <span class="d-flex flex-row-between text-muted  w-100">
+                                <div class="d-flex w-100 align-items-center p-1">
+
+                                    {{ $review->created_at }} by
+                                    {{ $review->user->name }}
+
+                                </div>
+                                @if(Auth::check() && Auth::user()->id == $review->user_id)
+
+
+                                <form class="d-flex w-25 justify-content-center" action="{{ route('user.removeReview', [$review->id, $product->id]) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-link text-decoration-none w-100 h-100 text-muted" type="submit">
+                                        <i class="bi bi-x-square"></i>
+                                    </button>
+                                </form>
+                                @endif
+                            </span>
+                        <li class="container d-flex list-group-item list-group-item-primary w-100 text-break">
+                            {{-- {{ $review->id }} --}}
+                            {{ $review->review }}
+                        </li>
+                        </li>
+
+                    </ul>
+                @endforeach
+                @guest
+                    <div class="d-flex flex-row ms-1 align-items-center bg-secondary rounded-2 w-25 ">
+                        <a class="btn btn-warning me-1 text-white fw-bold rounded-0" href="{{ route('login') }}">
+                            Log-In
+                        </a>
+                        <span class="d-flex ms-2 align-items-center text-white  p-1  h-25 justify-content-between w-75">
+                            <strong>to add a review</strong>
+                            <i class="bi bi-chat-left"></i>
+                        </span>
+                    </div>
+                @else
+                    <form class="d-flex justify-content-center w-50 m-4  bg-light rounded-2 shadow p-2"
+                        action="{{ route('user.review', $product['id']) }}" method="POST">
+                        @csrf
+                        <textarea class="m-1 form-control w-100" name="review"></textarea>
+                        <button class="btn btn-primary m-2">
+                            Add review
+                            <i class="bi bi-chat-left"></i>
+                        </button>
+                    
+                        {{-- <input class="btn btn-primary m-2" type="submit" value="Add review"> --}}
+                    </form>
+                @endguest
+            </div>
+
+        </div>
     </div>
-  </div>
-  @endsection
+@endsection

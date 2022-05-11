@@ -22,7 +22,9 @@
             <form action="{{ route('user.removeFromCart', $product['id']) }}" method="POST">
               @csrf
               @method('DELETE')
-              <input class="btn btn-link" type="submit" value="Remove">
+              {{-- <input class="btn btn-link" type="submit" value="Remove"> --}}
+              <button class="btn btn-link" type="submit"><i class="bi bi-trash"></i></button>
+              
             </form>
           </div>
 

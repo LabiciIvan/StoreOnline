@@ -15,5 +15,10 @@ class Orders extends Model
         'totalPrice'
     ];
 
+    public function user() {
+        
+        return $this->belongsTo('App\Models\User');
+    }
+
     use HasFactory;
 }

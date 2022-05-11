@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -53,6 +54,9 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'string', 'min:1'],
+            'street' => ['required', 'string', 'min:1'],
+            'country' => ['required', 'string', 'min:1']
         ]);
     }
 
@@ -64,10 +68,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        // dd($data['phone']);
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $profile = new Profile();
+        $profile->phone =  $data['phone'];
+        $profile->street =  $data['street'];
+        $profile->country = $data['country'];
+        $profile->user_id =  $user->id;
+     
+        $user->profile()->save($profile);
+
+        return $user;
     }
 }

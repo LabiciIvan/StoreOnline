@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('address');
             $table->text('order');
             $table->string('totalPrice');
+
+            $table->unsignedInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
