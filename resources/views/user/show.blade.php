@@ -97,18 +97,20 @@
                                     {{ $review->user->name }}
 
                                 </div>
-                                {{-- @if(Auth::check() && Auth::user()->id == $review->user_id) --}}
+                                @if(Auth::check() && Auth::user()->id == $review->user_id)
 
 
-                                <form class="d-flex w-25 justify-content-center" action="{{ route('user.removeReview', $review->id) }}" method="POST" style="display: none;">
+                                <form class="d-flex w-25 justify-content-center" action="{{ route('user.removeReview', [$review->id, $product->id]) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-link text-decoration-none w-100 h-100 text-muted" type="submit">x</button>
+                                    <button class="btn btn-link text-decoration-none w-100 h-100 text-muted" type="submit">
+                                        <i class="bi bi-x-square"></i>
+                                    </button>
                                 </form>
-                                {{-- @endif --}}
+                                @endif
                             </span>
                         <li class="container d-flex list-group-item list-group-item-primary w-100 text-break">
-                            {{ $review->id }}
+                            {{-- {{ $review->id }} --}}
                             {{ $review->review }}
                         </li>
                         </li>
@@ -120,8 +122,9 @@
                         <a class="btn btn-warning me-1 text-white fw-bold rounded-0" href="{{ route('login') }}">
                             Log-In
                         </a>
-                        <span class="d-flex ms-2 align-items-center text-white  p-1  h-25">
-                            to add a review
+                        <span class="d-flex ms-2 align-items-center text-white  p-1  h-25 justify-content-between w-75">
+                            <strong>to add a review</strong>
+                            <i class="bi bi-chat-left"></i>
                         </span>
                     </div>
                 @else
@@ -129,7 +132,12 @@
                         action="{{ route('user.review', $product['id']) }}" method="POST">
                         @csrf
                         <textarea class="m-1 form-control w-100" name="review"></textarea>
-                        <input class="btn btn-primary m-2" type="submit" value="Add review">
+                        <button class="btn btn-primary m-2">
+                            Add review
+                            <i class="bi bi-chat-left"></i>
+                        </button>
+                    
+                        {{-- <input class="btn btn-primary m-2" type="submit" value="Add review"> --}}
                     </form>
                 @endguest
             </div>

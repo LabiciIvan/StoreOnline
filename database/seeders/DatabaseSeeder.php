@@ -38,6 +38,9 @@ class DatabaseSeeder extends Seeder
 
         });
 
+        // we make a suer to be admin
+        User::factory()->after()->create();
+
 
     }
 }

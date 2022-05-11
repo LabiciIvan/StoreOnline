@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Gate;
 class ReviewController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function storeReview(StoreReview $request, $id) {
 
@@ -36,7 +36,7 @@ class ReviewController extends Controller
 
     }
 
-    public function removeReview($idReview) {
+    public function removeReview($idReview, $idProduct) {
         
         $review = Reviews::findOrFail($idReview);
 
@@ -44,11 +44,14 @@ class ReviewController extends Controller
         //         abort(403);
         //     }
 
-        $this->authorize('delete', $review);
+    
+        // $this->authorize('delete', $review);
+      
+        $this->authorize('reviews.delete', $review);
             
         $review->delete();
             
-        return redirect()->route('user.index');
+        return redirect()->route('user.show', $idProduct);
     }
 
 }

@@ -65,6 +65,9 @@ class ReviewsPolicy
      */
     public function delete(User $user, Reviews $reviews)
     {
+        if($user->role) {
+            return true;
+        }
         return $user->id == $reviews->user_id;
     }
 

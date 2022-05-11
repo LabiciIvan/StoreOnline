@@ -34,6 +34,21 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('user.update', 'App\Policies\UserPolicy@update');
 
         // Gate::define('reviews.delete', 'App\Policies\ReviewsPolicy@delete');
+
+        // Gate::define('delete', 'App\Policies\ReviewsPolicy@delete');
+
+        Gate::define('isAdmin',function ($user) {
+
+            return $user->role;
+        });
+
+        // Gate::before(function ($user) {
+
+        //     if ($user->role) {
+        //         return true;
+        //     }
+        // });
+
         Gate::resource('reviews', 'App\Policies\ReviewsPolicy');
     }
 }

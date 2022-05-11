@@ -28,7 +28,7 @@ Route::get('/admin/productDetails{id}', [AdminController::class, 'productDetails
 Route::put('/admin/product/updateProduct{id}', [AdminController::class, 'updateProduct'])
     ->name('admin.updateProduct');
 
-Route::delete('/admin/product/deleteReview{idReview}{idProduct}', [AdminController::class, 'deleteReview'])
+Route::delete('/admin/product/deleteReview{idReview}/{idProduct}', [AdminController::class, 'deleteReview'])
     ->name('admin.deleteReview');
 
 Route::post('/admin/product/addProduct', [AdminController::class, 'addProduct'])
@@ -79,7 +79,7 @@ Route::get('/user/contact', [UserController::class, 'contact'])
 Route::post('/user/show/review{id}', [ReviewController::class, 'storeReview'])
     ->name('user.review');
 
-Route::delete('/user/removeReview{idReview}', [ReviewController::class, 'removeReview'])
+Route::delete('/user/removeReview{idReview}/{idProduct}', [ReviewController::class, 'removeReview'])
     ->name('user.removeReview');
 
 Route::get('/user/profile', [UserController::class, 'profile'])

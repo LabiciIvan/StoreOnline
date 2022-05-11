@@ -17,14 +17,20 @@ class AdminController extends Controller
     
          $this->middleware('auth');
          $this->middleware('admin');
+
     }
 
     public function product() {
+
+        // authorize checks for role of admin 
+        $this->authorize('isAdmin');
 
         return view('admin.product', ['products' => Products::all()]);
     }
 
     public function addProduct(StoreProduct $request) {
+
+        $this->authorize('isAdmin');
 
         $validateInput = $request->validated();
 
@@ -34,6 +40,8 @@ class AdminController extends Controller
     }
 
     public function updateProduct(StoreProduct $request, $id) {
+
+        $this->authorize('isAdmin');
 
    
         $validateInput = $request->validated();
@@ -53,6 +61,8 @@ class AdminController extends Controller
 
     public function deleteProduct($id) {
 
+        $this->authorize('isAdmin');
+
         $product = Products::with('reviews')->findOrFail($id);
 
         $product->reviews()->delete();
@@ -62,20 +72,27 @@ class AdminController extends Controller
     }
 
     public function deleteReview($idReview, $idProduct) {
+
+        $this->authorize('isAdmin');
+
         $review = Reviews::findOrFail($idReview);
         $review->delete();
 
-        
         return redirect()->route('admin.productDetails', $idProduct);
     }
 
     public function productDetails($id) {
+
+        $this->authorize('isAdmin');
 
         return view('admin.details', ['product' => Products::with('reviews')->findOrFail($id)]);
 
     }
 
     public function order() {
+
+        $this->authorize('isAdmin');
+
         return view('admin.order', ['order' => Orders::all()]);
     }
     

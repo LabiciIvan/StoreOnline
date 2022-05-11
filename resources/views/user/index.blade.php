@@ -37,7 +37,12 @@
                 </strong>
               </span>
             @endif --}}
-            <input class="btn btn-warning w-25 fw-bold" type="submit" value="Search">
+            {{-- <input class="btn btn-warning w-25 fw-bold" type="submit" value="Search"> --}}
+            <button class="btn btn-warning fw-bold" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+            
+
           </form>
         </div>
       </div>

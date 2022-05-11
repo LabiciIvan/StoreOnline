@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -38,5 +39,14 @@ class UserFactory extends Factory
                 'email_verified_at' => null,
             ];
         });
+    }
+
+    public function after() {
+
+        return $this->state([
+            'email' => 'user@mail.com',
+            'password' => Hash::make('password'),
+            'role' => 1
+        ]); 
     }
 }

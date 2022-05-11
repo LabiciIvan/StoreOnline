@@ -4,7 +4,10 @@
   <div class="d-flex flex-row w-100 h-25 justify-content-center align-items-center mt-2 bg-light shadow p-2" >
       <h4 class="d-flex flex-row-reverse border-2 border-end border-warning p-2 me-2 w-50 h-50">Results based on your search</h4>
       <div class="d-flex w-50 h-50">
-        <a class="link-primary h-100 fs-4" href="{{ route('user.index') }}">back</a>
+        <a class="link-primary h-100 fs-4" href="{{ route('user.index') }}">
+          {{-- back --}}
+          <i class="bi bi-backspace" style="font-size: 2rem;"></i>
+        </a>
       </div>
   </div>
 
