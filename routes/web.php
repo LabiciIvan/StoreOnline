@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReplayController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -16,77 +17,98 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Auth::routes();
 
-Route::get('/admin', [AdminController::class, 'product'])
-    ->name('admin.product');
+Route::prefix('/admin')->name('admin.')->group(function () {
 
-Route::get('/admin/productDetails{id}', [AdminController::class, 'productDetails']) 
-    ->name('admin.productDetails');
+    Route::get('/', [AdminController::class, 'product'])
+    ->name('product');
 
-Route::put('/admin/product/updateProduct{id}', [AdminController::class, 'updateProduct'])
-    ->name('admin.updateProduct');
+    Route::get('/productDetails{id}', [AdminController::class, 'productDetails']) 
+    ->name('productDetails');
 
-Route::delete('/admin/product/deleteReview{idReview}/{idProduct}', [AdminController::class, 'deleteReview'])
-    ->name('admin.deleteReview');
+    Route::put('/product/updateProduct{id}', [AdminController::class, 'updateProduct'])
+    ->name('updateProduct');
 
-Route::post('/admin/product/addProduct', [AdminController::class, 'addProduct'])
-    ->name('admin.addProduct');
+    Route::delete('/product/deleteReview{idReview}/{idProduct}', [AdminController::class, 'deleteReview'])
+    ->name('deleteReview');
 
-Route::delete('/admin/product/deleteProduct{id}', [AdminController::class, 'deleteProduct'])
-    ->name('admin.deleteProduct');
+    Route::post('/product/addProduct', [AdminController::class, 'addProduct'])
+    ->name('addProduct');
 
-Route::get('/admin/order', [AdminController::class, 'order'])
-    ->name('admin.order');
+    Route::delete('/product/deleteProduct{id}', [AdminController::class, 'deleteProduct'])
+    ->name('deleteProduct');
+
+    Route::get('/order', [AdminController::class, 'order'])
+    ->name('order');
+
+    Route::delete('/deleteReplay{idReplay}/{idProduct}', [AdminController::class, 'deleteReplayReview'])
+    ->name('deleteReplay');
+
+    Route::post('/confirmOrder{idOrder}', [AdminController::class, 'confirmOrder'])
+    ->name('confirmOrder');
+
+    Route::post('/replayReview{idReview}/{idProduct}', [AdminController::class, 'replayToReview'])
+    ->name('replayToReview');
+});
 
 Route::get('/', [UserController::class, 'index'])
     ->name('user.index');
 
-Route::get('/user/show{id}', [UserController::class, 'show'])
-    ->name('user.show');
+Route::prefix('/user')->name('user.')->group(function () {
 
-Route::post('/user/index/addCart{id}', [UserController::class, 'addCartIndex'])
-    ->name('user.index.addCart');
+    Route::get('/show{id}', [UserController::class, 'show'])
+        ->name('show');
 
-Route::post('/user/show/addCart{id}', [UserController::class, 'addCartShow'])
-    ->name('user.show.addCart');
+    Route::post('/index/addCart{id}', [UserController::class, 'addCartIndex'])
+        ->name('index.addCart');
 
-Route::get('/user/viewCart', [UserController::class, 'viewCart'])
-    ->name('user.viewCart');
+    Route::post('/show/addCart{id}', [UserController::class, 'addCartShow'])
+        ->name('show.addCart');
 
-Route::post('/user/increaseQuantity{id}', [UserController::class, 'increaseQuantity'])
-    ->name('user.increaseQuantity');
+    Route::get('/viewCart', [UserController::class, 'viewCart'])
+        ->name('viewCart');
 
-Route::post('/user/decreaseQuantity{id}', [UserController::class, 'decreaseQuantity'])
-    ->name('user.decreaseQuantity');
+    Route::post('/increaseQuantity{id}', [UserController::class, 'increaseQuantity'])
+        ->name('increaseQuantity');
 
-Route::delete('/user/removeFromCart{id}', [UserController::class, 'removeFromCart'])
-    ->name('user.removeFromCart');
-    
-Route::get('/user/searchForProducts', [UserController::class, 'searchForProducts'])
-    ->name('user.searchForProducts');
+    Route::post('/decreaseQuantity{id}', [UserController::class, 'decreaseQuantity'])
+        ->name('decreaseQuantity');
 
-Route::get('/user/checkout', [UserController::class, 'checkOut'])
-    ->name('user.checkout');
+    Route::delete('/removeFromCart{id}', [UserController::class, 'removeFromCart'])
+        ->name('removeFromCart');
+        
+    Route::get('/searchForProducts', [UserController::class, 'searchForProducts'])
+        ->name('searchForProducts');
 
-Route::post('/user/checkout/placeOrder', [UserController::class, 'placeOrder'])
-    ->name('user.placeOrder');
+    Route::get('/checkout', [UserController::class, 'checkOut'])
+        ->name('checkout');
 
-Route::get('/user/contact', [UserController::class, 'contact'])
-    ->name('user.contact');
+    Route::post('/checkout/placeOrder', [UserController::class, 'placeOrder'])
+        ->name('placeOrder');
 
-Route::post('/user/show/review{id}', [ReviewController::class, 'storeReview'])
-    ->name('user.review');
+    Route::get('/contact', [UserController::class, 'contact'])
+        ->name('contact');
 
-Route::delete('/user/removeReview{idReview}/{idProduct}', [ReviewController::class, 'removeReview'])
-    ->name('user.removeReview');
+    Route::post('/show/review{id}', [ReviewController::class, 'storeReview'])
+        ->name('review');
 
-Route::get('/user/profile', [UserController::class, 'profile'])
-    ->name('user.profile');
+    Route::delete('/removeReview{idReview}/{idProduct}', [ReviewController::class, 'deleteParentReview'])
+        ->name('removeReview');
 
-Route::get('/user/history', [UserController::class, 'history'])
-    ->name('user.history');
+    Route::delete('/replayDelete{idReplay}/{productId}', [ReplayController::class, 'deleteReplay'])
+        ->name('deleteReplay');
+        
+    Route::post('/reviewReplay{reviewId}/{productId}', [ReplayController::class, 'storeReplay'])
+        ->name('reviewReplay');
+        
+    Route::get('/profile', [UserController::class, 'profile'])
+        ->name('profile');
 
-Route::put('/user/updateProfile', [UserController::class, 'updateProfile'])
-    ->name('user.updateProfile');
+    Route::get('/history', [UserController::class, 'history'])
+        ->name('history');
+
+    Route::put('/updateProfile', [UserController::class, 'updateProfile'])
+        ->name('updateProfile');
+
+});

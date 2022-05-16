@@ -1,0 +1,21 @@
+#AdminReviewSection {
+  background-color: rgb(135, 180, 195)
+}
+
+#AdminReviewContent {
+
+}
+
+#AdminReplaySection {
+  background-color: lightblue
+}
+
+#AdminReplayContent {
+
+}
+
+
+#ReplayFormAdmin:hover{
+  cursor: pointer;
+  color: rgb(255, 200, 0);
+}

@@ -10,17 +10,11 @@
 
       @if (Auth::user()->role == 1)
       <div class="m-2">
-        <a class="nav-link" href="{{ route('user.index') }}">Store</a>
+        <a class="nav-link text-warning fw-bold" href="{{ route('user.index') }}">Store View</a>
       </div>    
 
       @endif
-
-      <div class="m-2">
-        <a class="nav-link text-dark text-muted" href="{{ route('user.profile') }}">
-          <i class="bi bi-person-fill"></i>
-          Profile</a>
-      </div>
-
+      
       <div class="m-2">
         <a class="nav-link text-dark text-muted" href="{{ route('logout') }}" 
                 onclick="event.preventDefault();document.getElementById('formLogOut').submit();">

@@ -4,22 +4,22 @@
 
         <div class="d-flex flex-row justify-content-center w-75 m-2">
             <div class="m-2">
-                <a class="d-flex align-items-center nav-link text-dark fw-bold" href="{{ route('user.index') }}">Home</a>
+                <a class="d-flex align-items-center nav-link text-dark fw-bold" href="{{ route('user.index') }}"  style="font-size: 1.2rem;" >Home</a>
             </div>
             <div class="m-2">
-                <a class="nav-link text-dark fw-bold" href="{{ route('user.contact') }}">Contact</a>
+                <a class="nav-link text-dark fw-bold" href="{{ route('user.contact') }}"  style="font-size: 1.2rem;" >Contact</a>
             </div>
             <div class="m-2">
                 @if (Session::has('product') && count(Session::get('product')) > 0 )
                     <a class="nav-link text-dark fw-bold" href="{{ route('user.viewCart') }}">
-
-                        <i class="bi bi-cart-check" ></i>
+                        
+                        <i class="bi bi-cart-check " style="font-size: 1.2rem;"></i>
                     
                         {{ count(Session::get('product')) }} 
                     </a>
                     </div>
                     @else
-                <a class="nav-link text-dark fw-bold" href="{{ route('user.viewCart') }}">
+                <a class="nav-link text-dark fw-bold" href="{{ route('user.viewCart') }}"  style="font-size: 1.2rem;">
                     <i class="bi bi-cart" ></i>
                 </a>
             </div>

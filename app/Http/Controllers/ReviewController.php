@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Reviews;
 use App\Http\Requests\StoreReview;
+use App\Models\Replay;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -36,17 +37,15 @@ class ReviewController extends Controller
 
     }
 
-    public function removeReview($idReview, $idProduct) {
+    public function deleteParentReview($idReview, $idProduct) {
         
         $review = Reviews::findOrFail($idReview);
+   
+        if($review->replay()->exists()) {
 
-        // if (Gate::denies('delete-review', $review)) {
-        //         abort(403);
-        //     }
+            $review->replay()->delete();
+        } 
 
-    
-        // $this->authorize('delete', $review);
-      
         $this->authorize('reviews.delete', $review);
             
         $review->delete();

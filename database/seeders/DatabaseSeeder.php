@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Products;
 use App\Models\Profile;
+use App\Models\Replay;
 use App\Models\Reviews;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Laravel\Ui\Presets\React;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        $user = User::factory(2)->create()->each(function($user) {
+        $user = User::factory(2)->sameEmail()->create()->each(function($user) {
 
             $profile = Profile::factory()->make();
             $profile->user_id = $user->id;
@@ -38,9 +40,26 @@ class DatabaseSeeder extends Seeder
 
         });
 
-        // we make a suer to be admin
-        User::factory()->after()->create();
+        // we make a user to be admin
+        $adminProfile = Profile::factory()->make();
+        $admin = User::factory()->after()->create();
+        $admin->profile()->save($adminProfile);
 
+        $review2 = Reviews::factory(300)->make()->each(function ($review2) use ($admin, $products) {
+            
+            $review2->user_id = $admin->id ;
+            $review2->products_id = $products->random()->id;
+
+            $review2->save();
+
+            $replay = Replay::factory()->make();
+            $replay->userName = $admin->name;
+            $replay->user_Id = $admin->id;
+            $replay->reviews_id = $review2->id;
+            $replay->products_id = $products->random()->id;
+            $replay->save();
+         
+        });
 
     }
 }

@@ -49,4 +49,11 @@ class UserFactory extends Factory
             'role' => 1
         ]); 
     }
+
+    public function sameEmail() {
+
+        return $this->state([
+            'password' => Hash::make('password'),
+        ]); 
+    }
 }
