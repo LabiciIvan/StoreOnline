@@ -7,10 +7,13 @@
   <title>@yield('title')</title>
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
   <script src="{{ asset('js/app.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('css/adminStyle.css') }}">
 </head>
 <body>
   @include('layouts.navigation')
 
   @yield('content')
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/test.js') }}"></script>
 </body>
 </html>

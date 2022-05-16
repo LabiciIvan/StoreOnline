@@ -19,5 +19,10 @@ class Products extends Model
         return $this->hasMany('App\Models\Reviews');
     }
 
+    public function replay() {
+        
+        return $this->hasMany('App\Models\Replay');
+    }
+
     use HasFactory;
 }

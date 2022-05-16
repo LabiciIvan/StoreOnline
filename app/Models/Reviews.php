@@ -19,5 +19,12 @@ class Reviews extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function replay() {
+
+        return $this->hasMany('App\Models\Replay');
+    }
+
+ 
+
     use HasFactory;
 }

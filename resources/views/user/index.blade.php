@@ -39,7 +39,7 @@
             @endif --}}
             {{-- <input class="btn btn-warning w-25 fw-bold" type="submit" value="Search"> --}}
             <button class="btn btn-warning fw-bold" type="submit">
-                <i class="bi bi-search"></i>
+                <i id="searchLogo" class="bi bi-search"></i>
             </button>
             
 
@@ -53,9 +53,9 @@
     @if($products)
       <div class="d-flex w-75 h-100 flex-wrap mt-4 border-3 border-start border-warning ">
         @foreach ($products as $product )
-        <div class="d-flex flex-column border m-4 bg-light rounded-1 shadow p-1 " style="width:170px; height:315px;">
-          <a class="d-flex flex-column align-items-center w-100" style="height: 270px;" href="{{ route('user.show', $product['id']) }}">
-            <div class="d-flex flex-column align-items-center justify-content-center w-100" style="height: 220px;">
+        <div id="product" class="d-flex flex-column border m-4 bg-light rounded-1  p-1 " style="width:170px; height:315px;">
+          <a class="d-flex flex-column align-items-center w-100 text-decoration-none" style="height: 270px;" href="{{ route('user.show', $product['id']) }}">
+            <div class="d-flex flex-column align-items-center justify-content-center w-100 bg-dark" style="height: 220px;">
               Image
             </div>
             <div class="d-flex " style="height: 25px">

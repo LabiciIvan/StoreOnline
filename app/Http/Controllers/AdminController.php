@@ -8,6 +8,8 @@ use App\Models\Products;
 use App\Models\Orders;
 use App\Models\Reviews;
 use App\Http\Requests\StoreProduct;
+use App\Http\Requests\StoreReplay;
+use App\Models\Replay;
 
 class AdminController extends Controller
 {
@@ -47,9 +49,6 @@ class AdminController extends Controller
         $validateInput = $request->validated();
 
         $product = Products::findOrFail($id);
-
-     
-
         $product->fill($validateInput);
         $product->save($validateInput);
 
@@ -71,12 +70,39 @@ class AdminController extends Controller
         return redirect()->route('admin.product');
     }
 
+    public function replayToReview(StoreReplay $request, $idReview, $idProduct) {
+
+        $userInput = $request->validated();
+        $review = Reviews::findOrFail($idReview);
+
+        $replay = new Replay($userInput);
+        $replay->products_id = $idProduct;
+        $replay->userName = 'ADMIN';
+        $replay->user_id = auth()->user()->id;
+        $review->replay()->save($replay);
+
+        return redirect()->route('admin.productDetails', $idProduct);
+
+    }
+
     public function deleteReview($idReview, $idProduct) {
 
         $this->authorize('isAdmin');
 
         $review = Reviews::findOrFail($idReview);
+        if ($review->replay()->exists()) {
+            $review->replay()->delete();
+        }
         $review->delete();
+
+        return redirect()->route('admin.productDetails', $idProduct);
+    }
+
+    public function deleteReplayReview($idReplay, $idProduct) {
+        
+        $replay = Replay::findOrFail($idReplay);
+    
+        $replay->delete();
 
         return redirect()->route('admin.productDetails', $idProduct);
     }
@@ -93,7 +119,21 @@ class AdminController extends Controller
 
         $this->authorize('isAdmin');
 
-        return view('admin.order', ['order' => Orders::all()]);
+        $confirmedOrders = Orders::where('confirmed', 1)->get();
+        $order = Orders::where('confirmed', 0)->get();
+        // dd($confirmedOrders);
+
+        return view('admin.order', ['order' => $order, 'confirmedOrders' =>$confirmedOrders]);
+    }
+
+    public function confirmOrder($orderId) {
+
+        $order = Orders::findOrFail($orderId);
+        $order->confirmed = true;
+        $order->save();
+
+        return redirect()->route('admin.order');
+
     }
     
 }

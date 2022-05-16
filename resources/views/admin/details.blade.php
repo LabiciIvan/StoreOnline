@@ -47,26 +47,65 @@
     </div>
 
     <div class="d-flex flex-column w-100 h-100 mt-4">
+      
       <div class="d-flex flex-row justify-content-center w-100 h-50 bg-warning">
         <h4>Reviews to this product</h4>
       </div>
-      <div class="d-flex flex-column w-50">
-        @foreach ($product->reviews as $review )
-        <span class="d-flex flex-column  text-muted m-4  list-group-item list-group-item-primary rounded-2">
-          {{ $review->created_at }}
-          <div class=" m-1  list-group-item list-group-item-primary text-break">
-            {{ $review->review }}
 
-            <form  class="m-2" action="{{ route('admin.deleteReview', [$review->id, $product->id]) }}" method="POST">
+
+        @foreach ($product->reviews as $review )
+        <div class="container d-flex flex-column w-100 justify-content-center mb-4  bg-light p-2 rounded-3">
+
+          <div id="AdminReviewSection" class="container d-flex flex-row align-items-center w-75  border border-primary ">
+            <h6 class="d-flex w-25">{{ $review->created_at }}</h6>
+            <h6 class="d-flex w-25">{{ $review->user->name }}</h6>
+            <form  class="d-flex flex-row justify-content-end w-50 m-2" action="{{ route('admin.deleteReview', [$review->id, $product->id]) }}" method="POST">
               @csrf
               @method('DELETE')
-              <input class="btn btn-danger" type="submit" value="Remove review">
+              <button class="d-flex btn btn-danger w-10" type="submit">
+                <i class="bi bi-trash-fill"></i>
+              </button>
             </form>
           </div>
-        </span>
+
+          <div class="container d-flex flex-column w-75 border border-primary  ">
+            <h5 id="AdminReviewContent" class="container d-flex w-75  p-2">
+              {{ $review->review }}
+            </h5>
+            <i id="ReplayFormAdmin" class="bi bi-reply-fill" style="font-size: 1.2rem;">
+              <form class="d-flex flex-row w-100 mb-2 ms-4" action="{{ route('admin.replayToReview', [$review->id, $product->id]) }}" method="POST">
+                @csrf
+                <textarea id="replayArea" class="form-control w-75 me-1" name="content" style="display: none"></textarea>
+                <button id="replayAreaButton" class="btn btn-primary w-10" type="submit" style="display: none">Replay</button>
+              </form>
+            </i>
+          </div>
+          <div class="container d-flex flex-column {{ $review->replay()->exists() ? 'border-start border-bottom border-primary' : '' }}   me-0 pe-0  " style="width: 75%;">
+            
+            @foreach ($review->replay as $replay)
+
+              <div id="AdminReplaySection" class="container d-flex flex-row w-100 align-items-center  mt-4 border border-primary p-2">
+                <h6 class="d-flex w-25 ">Replayed to review by</h6>
+                <h6 class="d-flex w-25">{{ $replay->userName }}</h6>
+                <form class="d-flex flex-row justify-content-end w-50" action="{{ route('admin.deleteReplay', ['idReplay' => $replay->id, 'idProduct' => $product->id]) }}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <button class="d-flex btn btn-danger w-10 rounded-circle" type="submit">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </form>
+              </div>
+              <h5 id="AdminReplayContent" class="d-flex p-2 border w-100 border-primary ">{{ $replay->content }}</h5>
+            @endforeach
+       
+          </div>
+
+        </div>
+ 
+
         @endforeach
 
-      </div>
+
     </div>
 
   </div>

@@ -3,6 +3,22 @@
 @section('title', 'Shopping Cart')
 
 @section('content')
+
+<div class="d-flex flex-row w-100 h-25 justify-content-center mt-2  p-2" >
+  <div id="infoBar" class="container d-flex flex-row border bg-light w-50 p-0">
+    
+    <div  class="container d-flex flex-row align-items-center w-25 me-0 ">
+      <a id="backButtonSearch" class="d-flex flex-row-reverse link-primary w-100 h-75 border-end border-primary fs-4 ms-2 align-items-center" href="{{ route('user.index') }}">
+        <i id="backButtonIcon" class="bi bi-backspace-fill me-2" style="font-size: 2rem;"></i>
+      </a>
+    </div>
+  
+    <div class="container d-flex flex-row align-items-center w-75 ms-0">
+      <h5 id="textSearch" class="d-flex flex-column align-items-center p-2 mt-1">Shopping Cart</h5>
+    </div>
+
+  </div>
+</div>
 @if($element)
   <div class="d-flex flex-column w-100 h-100 mt-3  align-items-center  ">
     <div class="d-flex flex-row w-50 h-50 justify-content-between bg-light p-1">
@@ -12,20 +28,22 @@
     </div>
         @foreach ($element as $product)
         <div class="d-flex flex-row w-50 h-50 justify-content-between border-2 border-bottom bg-light p-1 shadow ">
-          <div class="d-flex flex-column w-50 border-1 border-end border-secondary">
-            <div class="d-flex">
-              {{ $product['name'] }}
+          <div class="d-flex flex-row w-50 border-1 border-end border-secondary">
+            <div class="d-flex flex-column w-75">
+              <p class="d-flex w-100 ms-1 ">{{ $product['name'] }}</p>
+              <p class="d-flex w-100 ms-1 ">{{ $product['price'] }} Lei</p>
+
             </div>
-            <div>
-              {{ $product['price'] }} Lei
+            <div class="d-flex flex-column w-25">
+              <form class="d-flex w-100 h-100 " action="{{ route('user.removeFromCart', $product['id']) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-link w-100 h-100" type="submit">
+                  <i class="bi bi-trash" style="font-size: 1.2rem;"></i>
+                </button>
+              </form>
+
             </div>
-            <form action="{{ route('user.removeFromCart', $product['id']) }}" method="POST">
-              @csrf
-              @method('DELETE')
-              {{-- <input class="btn btn-link" type="submit" value="Remove"> --}}
-              <button class="btn btn-link" type="submit"><i class="bi bi-trash"></i></button>
-              
-            </form>
           </div>
 
           <div class="d-flex flex-column w-50 align-items-center justify-content-center">

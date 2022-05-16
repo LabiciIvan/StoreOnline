@@ -85,9 +85,10 @@ class Cart {
       if ($product->stock == 0) {
 
           Session::flash('outStock', 'Item out of Stock');
-
-          return redirect()->route('user.show', $product->id);
+          
+          return false;
       }
+      return true;
     }
 
     public function itemAvailableAddToCart($product, $id) {

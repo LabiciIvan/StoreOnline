@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchValidate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -11,7 +12,10 @@ use App\Models\User;
 use App\Http\Requests\StoreOrders;
 use App\Http\Requests\StoreProduct;
 use App\Http\Requests\StoreProfile;
+use App\Models\ReviewsReplay;
 use App\Services\Cart;
+use App\Services\Search;
+
 class UserController extends Controller
 {
     public function __construct() {
@@ -26,46 +30,19 @@ class UserController extends Controller
 
     public function show($id) {
 
-        return view('user.show', ['product' => Products::with('reviews')->findOrFail($id), 'reviews' => Products::withCount('reviews')->findOrFail($id)]);
+        return view('user.show', ['product' => Products::with('reviews')->findOrFail($id),
+                                   'reviews' => Products::withCount('reviews')->findOrFail($id),
+                                   ]);
     }
 
     public function addCartIndex($id) {
 
         $product = Products::findOrFail($id);
-        $notAdded = true;
-        $quantity = 1;
+        $cart = resolve(Cart::class);
+        
+        if ($cart->checkItemStock($product)) {
 
-        if ($product->stock == 0) {
-
-            Session::flash('outStock', 'Item out of Stock');
-
-            return redirect()->route('user.index');
-        }
-
-        $toSession = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'price' => $product->price,
-            'stock' => $product->stock,
-            'quantity' => $quantity,
-            'totalPrice' => $quantity * $product->price
-
-        ];
-
-        if(Session::has('product')) {
-            foreach(Session::get('product') as $key => $value) {
-                if($value['id'] == $id) {
-                    ++$value['quantity'];
-                    $value['totalPrice'] = $value['quantity'] * $value['price'];
-                    $notAdded = false;
-                    Session::put('product.'.$key, $value);
-                    Session::flash('status', 'Item increased in your cart!');
-                }
-            }
-        }
-        if($notAdded) {
-            Session::push('product',  $toSession);
-            Session::flash('status', 'Item added to cart');
+            $cart->itemAvailableAddToCart($product, $id);
         }
 
         return redirect()->route('user.index');
@@ -74,11 +51,13 @@ class UserController extends Controller
     public function addCartShow($id) {
 
         $product = Products::findOrFail($id);
-
         $cart = resolve(Cart::class);
-        $cart->checkItemStock($product);
-        $cart->itemAvailableAddToCart($product, $id);
 
+        if ($cart->checkItemStock($product)) {
+
+            $cart->itemAvailableAddToCart($product, $id);
+        }
+        
         return redirect()->route('user.show', $product->id);
     }
 
@@ -93,9 +72,7 @@ class UserController extends Controller
 
     public function checkOut() {
 
-        // $cart = new Cart();
         $cart = resolve(Cart::class);
-
         $products = Session::get('product');
 
         return view('user.checkout', ['products' => Session::get('product'), 'productsOrdered' => $cart->createStringAllProducts($products), 'totalPrice'=>$cart->totalCart($products)]);
@@ -143,21 +120,20 @@ class UserController extends Controller
         return redirect()->route('user.viewCart');
     }
 
-    public function searchForProducts(Request $request) {
+    public function searchForProducts(SearchValidate $request) {
 
-        $search = $request->validate([
-            'name' => 'bail|required|min:1'
-        ]);
+        $userInput = $request->validated();
 
-        $found = Products::where( 'name', 'Like', '%' .$search['name']. '%')->get();
+        $search = resolve(Search::class);
+        $resultSearch = $search->byName($userInput);
 
-        if($found->isEmpty()) {
+        if($resultSearch->isEmpty()) {
 
             Session::flash('status', 'not found');
             return redirect()->route('user.index');
         }
 
-        return view('user.search',['found' => $found]);
+        return view('user.search',['found' => $resultSearch]);
     }
 
     public function contact() {
@@ -173,9 +149,7 @@ class UserController extends Controller
         $input =  $request->validated();
         
         $user = User::findOrFail(auth::user()->id);
-
         $user->profile->fill($input);
-        // dd($user->profile);
         $user->profile->save();
 
         return redirect()->route('user.profile');
@@ -183,10 +157,8 @@ class UserController extends Controller
 
     public function history() {
 
-
         $userOrders = User::with('order')->whereKey(auth::user()->id)->first();
 
-        // dd($userOrders->order);
         return view('user.history', ['orders' => $userOrders]);
     }
 }

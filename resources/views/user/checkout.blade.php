@@ -4,11 +4,20 @@
 
 @section('content')
   <div class="d-flex flex-column w-100 h-100">
-    <div class="d-flex flex-row w-100 h-10 justify-content-between m-2 bg-light shadow p-2">
-      <a class="d-flex flex-row w-25 border-2 border-end justify-content-center btn btn-link" href="{{ route('user.viewCart') }}">Back to Cart</a>
 
-      <div class="d-flex w-75 flex-row ms-4 align-items-center">
-        <h4>CheckOut</h4>
+    <div class="d-flex flex-row w-100 h-25 justify-content-center mt-2  p-2" >
+      <div id="infoBar" class="container d-flex flex-row border bg-light w-50 p-0">
+        
+        <div  class="container d-flex flex-row align-items-center w-25 me-0 ">
+          <a id="backButtonSearch" class="d-flex flex-row-reverse link-primary w-100 h-75 border-end border-primary fs-4 ms-2 align-items-center" href="{{ route('user.viewCart') }}">
+            <i id="backButtonIcon" class="bi bi-backspace-fill me-2" style="font-size: 2rem;"></i>
+          </a>
+        </div>
+      
+        <div class="container d-flex flex-row align-items-center w-75 ms-0">
+          <h5 id="textSearch" class="d-flex flex-column align-items-center p-2 mt-1">CheckOut</h5>
+        </div>
+  
       </div>
     </div>
 
