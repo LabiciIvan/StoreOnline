@@ -1,20 +1,34 @@
-<div id="carouselExampleControls" class="carousel slide w-100 h-100" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="" class="d-block w-100  bg-warning" style="height: 400px" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="..." class="d-block w-100 bg-success" style="height: 400px" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="..." class="d-block w-100 bg-primary" style="height: 400px" alt="...">
-    </div>
+
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+  <div class="carousel-inner">
+    @if($productImage->pathOne)
+    <div class="carousel-item active w-100">
+      <img src="{{ Storage::url($productImage->pathOne) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
+    </div>
+    @endif
+    @if($productImage->pathTwo)
+    <div class="carousel-item">
+      <img src="{{ Storage::url($productImage->pathTwo) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
+    </div>
+    @endif
+    @if($productImage->pathThree)
+    <div class="carousel-item">
+      <img src="{{ Storage::url($productImage->pathThree) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
+    </div>
+    @endif
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>

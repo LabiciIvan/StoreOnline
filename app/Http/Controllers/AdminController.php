@@ -9,7 +9,9 @@ use App\Models\Orders;
 use App\Models\Reviews;
 use App\Http\Requests\StoreProduct;
 use App\Http\Requests\StoreReplay;
+use App\Models\Image;
 use App\Models\Replay;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -32,11 +34,29 @@ class AdminController extends Controller
 
     public function addProduct(StoreProduct $request) {
 
+ 
         $this->authorize('isAdmin');
 
         $validateInput = $request->validated();
 
         $product = Products::create($validateInput);
+
+        if($request->hasFile('imageOne') || $request->hasFile('imageTwo') || $request->hasFile('imageThree')) {
+            $image = new Image(); // create a model
+
+            if ($request->hasFile('imageOne')) { // add every uploaded image path to a Image model field
+                $image->pathOne = $request->file('imageOne')->store('products', ['disk' => 'public']);
+            }
+            if ($request->hasFile('imageTwo')) {
+                $image->pathTwo = $request->file('imageTwo')->store('products', ['disk' => 'public']);
+            }
+            if ($request->hasFile('imageThree')) {
+                $image->pathThree = $request->file('imageThree')->store('products', ['disk' => 'public']);
+            }
+
+            // $path = $file = $request->file('image')->store('products', ['disk' => 'public']);
+            $product->image()->save($image);
+        }
         
         return redirect()->route('admin.product');
     }

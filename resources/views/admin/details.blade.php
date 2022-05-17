@@ -21,7 +21,7 @@
       </div>
 
       <div class="d-flex flex-column">
-        <form class="d-flex flex-column justify-content-between w-100 p-2 " action="{{ route('admin.updateProduct', $product->id) }}" method="POST">
+        <form class="d-flex flex-column justify-content-between w-100 p-2 " action="{{ route('admin.updateProduct', $product->id) }}" method="POST" enctype="multipart/form-data">
           @csrf
           @method('PUT')
           <div class="d-flex flex-row">

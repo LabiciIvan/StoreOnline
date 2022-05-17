@@ -25,6 +25,7 @@
           </div>
 
         <div class="d-flex flex-row w-100 h-100 mt-4 justify-content-center">
+            <img src="storage/products/g1xZFLAx2m3ZCiNtECq3jvaQHJ5bqMlbwybFciky.jpg" alt="">
 
             <div class="d-flex justify-content-center w-50  m-3 shadow  rounded-2">
             @include('user.slideShow')
