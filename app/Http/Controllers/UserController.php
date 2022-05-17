@@ -30,8 +30,13 @@ class UserController extends Controller
 
     public function show($id) {
 
+        $images = Products::with('image')->findOrFail($id);
+        
+        $productImage = $images->image;
+
         return view('user.show', ['product' => Products::with('reviews')->findOrFail($id),
                                    'reviews' => Products::withCount('reviews')->findOrFail($id),
+                                   'productImage' => $productImage,
                                    ]);
     }
 
