@@ -8,7 +8,7 @@
 @section('content')
   <div class="d-flex flex-column  w-100 h-100 justify-content-center align-items-center">
 
-    <div class="d-flex flex-column w-75  h-100">
+    <div class="d-flex flex-column align-items-center w-75  h-100">
       <table class="table">
         <thead>
           <tr>
@@ -37,38 +37,79 @@
       <div class="d-flex flex-row flex-row justify-content-center w-100 mb-4">
         <input class="d-flex btn btn-primary w-25 justify-content-center " type="submit" value="Save">
       </div>
-      <div class="d-flex flex-row w-100 justify-content-center">
-        @if ($product->image->pathOne)
-        <img class="m-1 border border-warning" src="{{Storage::url($product->image->pathOne)}}" alt="" style="width:200px; height:200px;">
-        @endif
-        @if ($product->image->pathTwo)
-        <img class="m-1 border border-warning" src="{{Storage::url($product->image->pathTwo)}}" alt="" style="width:200px; height:200px;">
-        @endif
-        @if ($product->image->pathThree)
-        <img  class="m-1 border border-warning" src="{{Storage::url($product->image->pathThree)}}" alt="" style="width:200px; height:200px;">
-        @endif
+    </form>
+
+    <div class="d-flex flex-column w-100 justify-content-center align-items-center mt-4">
+    <div class="d-flex flex-column w-75 justify-content-center  border border-secondary shadow">
+
+      <div class="container d-flex flex-row m-2">
+        <div class="d-flex w-25  flex-row justify-content-end">
+          @if ($product->image->pathOne)
+            <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{$product->image->url($product->image->pathOne)}}" alt="" style="width:200px; height:200px;">
+            @else
+            <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
+          @endif
+        </div>
+        <form class="d-flex flex-row w-50 align-items-center border-bottom border-secondary" action="{{ route('admin.changeImage', [$product->id, 'path' =>'pathOne']) }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          @method('PUT')
+          <input class="form-control w-75 ms-1" type="file" name="image">
+          <button class="btn btn-primary w-25">Change</button>
+        </form>
       </div>
-    </form>
-    <form action="{{ route('admin.deleteProdImage', $product->id) }}" method="POST">
-      @csrf
-      @method('DELETE')
-      <button type="submit">DELETE</button>
-    </form>
-    <form action="{{ route('admin.deleteProduct', $product->id) }}" method="POST">
-      @csrf
-      @method('DELETE')
-      <input class="d-flex btn btn-danger w-25 justify-content-center m-2" type="submit" value="DELETE">
-    </form>
+
+      <div class="container d-flex flex-row m-2">
+        <div class="d-flex w-25  flex-row justify-content-end">
+          @if ($product->image->pathTwo)
+            <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{$product->image->url($product->image->pathTwo)}}" alt="" style="width:200px; height:200px;">
+            @else
+            <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
+          @endif
+        </div>
+        <form class="d-flex flex-row w-50 align-items-center border-bottom border-secondary" action="{{ route('admin.changeImage', [$product->id, 'path' =>'pathTwo']) }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          @method('PUT')
+          <input class="form-control w-75 ms-1" type="file" name="image">
+          <button class="btn btn-primary w-25">Change</button>
+        </form>
+      </div>
+
+      <div class="container d-flex flex-row m-2">
+        <div class="d-flex w-25  flex-row justify-content-end">
+          @if ($product->image->pathThree)
+          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{$product->image->url($product->image->pathThree)}}" alt="" style="width:200px; height:200px;">
+          @else
+          <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
+          @endif
+        </div>
+        <form class="d-flex flex-row w-50 align-items-center border-bottom border-secondary" action="{{ route('admin.changeImage', [$product->id, 'path' =>'pathThree']) }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          @method('PUT')
+          <input class="form-control w-75 ms-1" type="file" name="image">
+          <button class="btn btn-primary w-25" type="submit">Change</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+
+    <div class="d-flex container border border-danger w-100 m-4 justify-content-center">
+      <form class="d-flex w-50 justify-content-center" action="{{ route('admin.deleteProduct', $product->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <input class="d-flex btn btn-danger w-25 justify-content-center m-2" type="submit" value="DELETE PRODUCT">
+      </form>
+    </div>
+
     </div>
 
 
     <div class="d-flex flex-column w-100 h-100 mt-4">
-      
       <div class="d-flex flex-row justify-content-center w-100 h-50 bg-warning">
         <h4>Reviews to this product</h4>
       </div>
-
-
+      
         @foreach ($product->reviews as $review )
         <div class="container d-flex flex-column w-100 justify-content-center mb-4  bg-light p-2 rounded-3">
 

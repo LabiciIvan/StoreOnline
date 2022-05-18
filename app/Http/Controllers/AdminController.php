@@ -61,14 +61,27 @@ class AdminController extends Controller
         return redirect()->route('admin.product');
     }
 
-    public function deleteImage($idProd) {
-        $product = Products::findOrFail($idProd);
 
-        $product->image->pathOne = 'asa';
-        $product->save();
+    public function changeImage(Request $request, $id, $path) {
 
-        // Storage::disk('public')->delete($pathImage);
-        return redirect()->route('admin.product', ['products' => Products::all()]) ;
+
+        // dd($request->file('image'));
+
+        if($request->hasFile('image')) {
+            $product = Products::findOrFail($id);
+
+            Storage::disk('public')->delete($product->image->$path);
+            // dump($product->image->$path);
+            // die();
+            $product->image->$path = $request->file('image')->store('products', ['disk' => 'public']);
+            $product->image->save();
+    
+        }
+
+
+       
+
+        return redirect()->route('admin.productDetails', $id);
     }
 
     public function updateProduct(StoreProduct $request, $id) {

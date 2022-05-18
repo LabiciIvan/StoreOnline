@@ -26,10 +26,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 
     Route::get('/productDetails{id}', [AdminController::class, 'productDetails']) 
     ->name('productDetails');
-
-    Route::delete('/products/deleteProdImage{pathImage}', [AdminController::class, 'deleteImage'])
-        ->name('deleteProdImage');
-
+    
     Route::put('/product/updateProduct{id}', [AdminController::class, 'updateProduct'])
     ->name('updateProduct');
 
@@ -38,6 +35,8 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 
     Route::post('/product/addProduct', [AdminController::class, 'addProduct'])
     ->name('addProduct');
+
+    Route::put('/product/changeProductImage{id}/{path}', [AdminController::class, 'changeImage'])->name('changeImage');
 
     Route::delete('/product/deleteProduct{id}', [AdminController::class, 'deleteProduct'])
     ->name('deleteProduct');
