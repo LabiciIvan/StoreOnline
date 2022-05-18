@@ -8,43 +8,59 @@
 @section('content')
   <div class="d-flex flex-column  w-100 h-100 justify-content-center align-items-center">
 
-    <div class="d-flex flex-column w-50 h-50 mt-4 border ">
-
-      <div class="d-flex flex-row justify-content-between w-100 p-2 border-bottom">
-        <div class="d-flex w-25 border-2 border-end justify-content-center">
-          <a class="nav-link" href="{{ route('admin.product') }}">Back</a>
-        </div>
-        <div class="d-flex w-25 border-2 border-end justify-content-center m-0" >Name</div> 
-        <div class="d-flex w-25 justify-content-center">Price (Lei)</div>
-        <div class="d-flex w-25 border-2 border-start justify-content-center">Stock</div>
-        <div class="d-flex w-25 border-2 border-start justify-content-center">Description</div>
+    <div class="d-flex flex-column w-75  h-100">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"><a href="{{ route('admin.product') }}"><i class="bi bi-backspace-fill"></i></a></th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            <th scope="col">description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <form class="d-flex flex-column justify-content-between w-100 p-2 " action="{{ route('admin.updateProduct', $product->id) }}" method="POST" enctype="multipart/form-data">
+              @csrf
+              @method('PUT')
+              <div class="d-flex flex-row">
+                <td>{{ $product->id }}</td>
+                <td><input class="d-flex form-control  " type="text" name="name" value="{{ $product->name }}"></td>
+                <td><input class="d-flex form-control" type="text" name="price" value="{{ $product->price }}"></td>
+                <td><input class="form-control " type="text" name="stock" value="{{ $product->stock }}"></td>
+                <td><textarea class="form-control" name="description">{{ $product->description }}</textarea></td>
+              </div>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex flex-row flex-row justify-content-center w-100 mb-4">
+        <input class="d-flex btn btn-primary w-25 justify-content-center " type="submit" value="Save">
       </div>
-
-      <div class="d-flex flex-column">
-        <form class="d-flex flex-column justify-content-between w-100 p-2 " action="{{ route('admin.updateProduct', $product->id) }}" method="POST" enctype="multipart/form-data">
-          @csrf
-          @method('PUT')
-          <div class="d-flex flex-row">
-            <div class="d-flex w-25  justify-content-center">{{ $product->id }}</div>
-            <input class="d-flex form-control w-25 " type="text" name="name" value="{{ $product->name }}">
-            <input class="d-flex form-control w-25" type="text" name="price" value="{{ $product->price }}">
-            <input class="form-control w-25" type="text" name="stock" value="{{ $product->stock }}">
-            <textarea class="form-control w-25" name="description">{{ $product->description }}</textarea>
-          </div>
-  
-          <div class="d-flex flex-row w-100  mt-3">
-            <input class="d-flex btn btn-primary w-25 justify-content-center " type="submit" value="Save">
-          </div>
-        </form>
-
-        <form action="{{ route('admin.deleteProduct', $product->id) }}" method="POST">
-          @csrf
-          @method('DELETE')
-          <input class="d-flex btn btn-danger w-25 justify-content-center m-2" type="submit" value="DELETE">
-        </form>
+      <div class="d-flex flex-row w-100 justify-content-center">
+        @if ($product->image->pathOne)
+        <img class="m-1 border border-warning" src="{{Storage::url($product->image->pathOne)}}" alt="" style="width:200px; height:200px;">
+        @endif
+        @if ($product->image->pathTwo)
+        <img class="m-1 border border-warning" src="{{Storage::url($product->image->pathTwo)}}" alt="" style="width:200px; height:200px;">
+        @endif
+        @if ($product->image->pathThree)
+        <img  class="m-1 border border-warning" src="{{Storage::url($product->image->pathThree)}}" alt="" style="width:200px; height:200px;">
+        @endif
       </div>
-      
+    </form>
+    <form action="{{ route('admin.deleteProdImage', $product->id) }}" method="POST">
+      @csrf
+      @method('DELETE')
+      <button type="submit">DELETE</button>
+    </form>
+    <form action="{{ route('admin.deleteProduct', $product->id) }}" method="POST">
+      @csrf
+      @method('DELETE')
+      <input class="d-flex btn btn-danger w-25 justify-content-center m-2" type="submit" value="DELETE">
+    </form>
     </div>
+
 
     <div class="d-flex flex-column w-100 h-100 mt-4">
       

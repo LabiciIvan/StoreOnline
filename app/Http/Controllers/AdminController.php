@@ -61,6 +61,16 @@ class AdminController extends Controller
         return redirect()->route('admin.product');
     }
 
+    public function deleteImage($idProd) {
+        $product = Products::findOrFail($idProd);
+
+        $product->image->pathOne = 'asa';
+        $product->save();
+
+        // Storage::disk('public')->delete($pathImage);
+        return redirect()->route('admin.product', ['products' => Products::all()]) ;
+    }
+
     public function updateProduct(StoreProduct $request, $id) {
 
         $this->authorize('isAdmin');
