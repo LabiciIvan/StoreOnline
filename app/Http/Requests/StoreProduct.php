@@ -28,6 +28,7 @@ class StoreProduct extends FormRequest
             'price' => 'bail|required|min:1|numeric', 
             'stock' => 'bail|required|min:0|numeric',
             'description' => 'bail|required|min:1',
+            'imageOne' => 'image'
         ];
     }
 }

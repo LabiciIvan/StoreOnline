@@ -44,24 +44,29 @@
 
       <div class="container d-flex flex-row m-2">
         <div class="d-flex w-25  flex-row justify-content-end">
+          @if ($product->image)
+              
           @if ($product->image->pathOne)
-            <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{$product->image->url($product->image->pathOne)}}" alt="" style="width:200px; height:200px;">
-            @else
-            <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
+          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->image->pathOne)}}" alt="" style="width:200px; height:200px;">
+          @endif
+          @else
+          <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
           @endif
         </div>
         <form class="d-flex flex-row w-50 align-items-center border-bottom border-secondary" action="{{ route('admin.changeImage', [$product->id, 'path' =>'pathOne']) }}" method="POST" enctype="multipart/form-data">
           @csrf
           @method('PUT')
           <input class="form-control w-75 ms-1" type="file" name="image">
-          <button class="btn btn-primary w-25">Change</button>
+          <button class="btn btn-primary w-25 ms-1">Save</button>
         </form>
       </div>
 
       <div class="container d-flex flex-row m-2">
         <div class="d-flex w-25  flex-row justify-content-end">
+          @if ($product->image)
           @if ($product->image->pathTwo)
-            <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{$product->image->url($product->image->pathTwo)}}" alt="" style="width:200px; height:200px;">
+            <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->image->pathTwo)}}" alt="" style="width:200px; height:200px;">
+            @endif
             @else
             <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
           @endif
@@ -70,14 +75,16 @@
           @csrf
           @method('PUT')
           <input class="form-control w-75 ms-1" type="file" name="image">
-          <button class="btn btn-primary w-25">Change</button>
+          <button class="btn btn-primary w-25 ms-1">Save</button>
         </form>
       </div>
 
       <div class="container d-flex flex-row m-2">
         <div class="d-flex w-25  flex-row justify-content-end">
+          @if ($product->image)
           @if ($product->image->pathThree)
-          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{$product->image->url($product->image->pathThree)}}" alt="" style="width:200px; height:200px;">
+          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->image->pathThree)}}" alt="" style="width:200px; height:200px;">
+          @endif
           @else
           <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
           @endif
@@ -86,7 +93,7 @@
           @csrf
           @method('PUT')
           <input class="form-control w-75 ms-1" type="file" name="image">
-          <button class="btn btn-primary w-25" type="submit">Change</button>
+          <button class="btn btn-primary w-25 ms-1" type="submit">Save</button>
         </form>
       </div>
 

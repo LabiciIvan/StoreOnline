@@ -16,7 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(Search::class, function($app) {
+            return new Search();
+        });
+
+        $this->app->bind(Cart::class, function ($app) {
+            return new Cart();
+        });
     }
 
     /**
@@ -26,14 +32,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(Cart::class, function ($app) {
+        // $this->app->bind(Cart::class, function ($app) {
 
-            return new Cart();
-        });
+        //     return new Cart();
+        // });
 
-        $this->app->bind(Search::class, function($app) {
+        // $this->app->bind(Search::class, function($app) {
             
-            return new Search();
-        });
+        //     return new Search();
+        // });
     }
 }

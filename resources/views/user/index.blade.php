@@ -57,7 +57,7 @@
           <a class="d-flex flex-column align-items-center w-100 text-decoration-none" style="height: 270px;" href="{{ route('user.show', $product['id']) }}">
             <div class="d-flex flex-column align-items-center justify-content-center w-100 " style="height: 220px;">
               @if($product->image()->exists())
-              <img src="{{ Storage::url($product->image->pathOne) }}" alt="" style="height: 220px;" width="160px;">
+              <img id="imageIndex" class="" src="{{ Storage::disk('s3')->url($product->image->pathOne) }}" alt="" style="height: 220px;" width="160px;">
               @endif
             </div>
             <div class="d-flex " style="height: 25px">

@@ -12,7 +12,8 @@ class Orders extends Model
         'phone',
         'address',
         'order',
-        'totalPrice'
+        'totalPrice', 
+        'payment'
     ];
 
     public function user() {

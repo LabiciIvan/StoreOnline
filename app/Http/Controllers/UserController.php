@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SearchValidate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Orders;
 use App\Models\User;
 use App\Http\Requests\StoreOrders;
 use App\Http\Requests\StoreProduct;
 use App\Http\Requests\StoreProfile;
-use App\Models\ReviewsReplay;
 use App\Services\Cart;
 use App\Services\Search;
 
@@ -40,10 +38,10 @@ class UserController extends Controller
                                    ]);
     }
 
-    public function addCartIndex($id) {
+    public function addCartIndex(Cart $cart, $id) {
 
         $product = Products::findOrFail($id);
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
         
         if ($cart->checkItemStock($product)) {
 
@@ -53,10 +51,10 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function addCartShow($id) {
+    public function addCartShow(Cart $cart, $id) {
 
         $product = Products::findOrFail($id);
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
 
         if ($cart->checkItemStock($product)) {
 
@@ -67,23 +65,23 @@ class UserController extends Controller
     }
 
 
-    public function viewCart() {
+    public function viewCart(Cart $cart) {
 
         $element = Session::get('product');
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
 
         return view('user.cart',['element' => $element, 'total' =>$cart->totalCart($element)]);
     }
 
-    public function checkOut() {
+    public function checkOut(Cart $cart) {
 
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
         $products = Session::get('product');
 
         return view('user.checkout', ['products' => Session::get('product'), 'productsOrdered' => $cart->createStringAllProducts($products), 'totalPrice'=>$cart->totalCart($products)]);
     }
 
-    public function placeOrder(StoreOrders $request) {
+    public function placeOrder(Cart $cart, StoreOrders $request) {
 
         $validateInput = $request->validated();
 
@@ -95,37 +93,37 @@ class UserController extends Controller
             $order->save();
         }
 
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
         $cart->decrementProductsStockAndEmptyCart();
 
         return redirect()->route('user.viewCart');
     }
 
-    public function increaseQuantity($id) {
+    public function increaseQuantity(Cart $cart, $id) {
 
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
         $cart->increaseQuantity($id);
 
         return redirect()->route('user.viewCart');
     }
 
-    public function decreaseQuantity($id) {
+    public function decreaseQuantity(Cart $cart, $id) {
 
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
         $cart->decreaseQuantity($id);
 
         return redirect()->route('user.viewCart');
     }
 
-    public function removeFromCart($id) {
+    public function removeFromCart(Cart $cart, $id) {
 
-        $cart = resolve(Cart::class);
+        // $cart = resolve(Cart::class);
         $cart->removeItem($id);
 
         return redirect()->route('user.viewCart');
     }
 
-    public function searchForProducts(SearchValidate $request) {
+    public function searchForProducts(Search $search ,SearchValidate $request) {
 
         $userInput = $request->validated();
 

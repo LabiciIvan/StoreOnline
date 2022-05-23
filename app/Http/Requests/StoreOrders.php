@@ -29,6 +29,7 @@ class StoreOrders extends FormRequest
             'address' => 'bail|required|min:1',
             'order' => 'bail|required|min:1',
             'totalPrice' => 'bail|required|min:1',
+            'payment' => 'bail|required'
         ];
     }
 }

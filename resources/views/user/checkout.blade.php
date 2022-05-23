@@ -52,10 +52,30 @@
 
     </div>
 
+    {{-- <div class="d-flex flex-column w-100 h-100 align-items-center mt-4 mb-4">
+      <div class="d-flex flex-column w-25 h-100 align-items-center border bg-light rounded-4">
+
+      </div>
+    </div> --}}
+
     <div class="d-flex flex-column w-100 h-100 align-items-center">
-      <div class="d-flex flex-column align-items-center w-25 bg-white rounded-1">
-        <form class="d-flex flex-column w-75 h-100 align-items-center" action="{{ route('user.placeOrder') }}" method="POST">
+      <div class="d-flex flex-column align-items-center w-25 bg-white rounded-1 border">
+        <form class="d-flex flex-column w-75 h-100 align-items-center"  action="{{ route('user.placeOrder') }}" method="POST">
           @csrf
+          <label  for="payment">Choose Payment</label>
+
+          <select class="form-select {{ $errors->has('payment') ? ' is-invalid' : '' }}" name="payment" id="payment">
+            <option disabled selected value></option>
+            <option value="CASH">CASH</option>
+            <option value="CARD">CARD</option>
+          </select>
+          @if($errors->has('payment'))
+          <span class="invalid-feedback">
+            <strong>
+              {{ $errors->first('payment') }}
+            </strong>
+          </span>
+          @endif
 
           @guest
           <label for="name">Full Name</label>
@@ -112,7 +132,7 @@
 
           <input type="hidden" value="{{ $totalPrice}}" class="form-control" name="totalPrice">
 
-          <input class="btn btn-warning m-3" type="submit" value="Place Order">
+          <input class="btn btn-warning m-3 border text-white fw-bold" type="submit" value="Place Order">
           {{-- @if($errors->any())
             @foreach ($errors->all() as $error )
               <h6>{{ $error }}</h6>

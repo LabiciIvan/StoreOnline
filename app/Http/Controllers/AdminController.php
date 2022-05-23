@@ -45,16 +45,22 @@ class AdminController extends Controller
             $image = new Image(); // create a model
 
             if ($request->hasFile('imageOne')) { // add every uploaded image path to a Image model field
-                $image->pathOne = $request->file('imageOne')->store('products', ['disk' => 'public']);
+          
+                $image->pathOne = $request->file('imageOne')->store('products','s3');
+          
             }
             if ($request->hasFile('imageTwo')) {
-                $image->pathTwo = $request->file('imageTwo')->store('products', ['disk' => 'public']);
+             
+                $image->pathTwo = $request->file('imageTwo')->store('products', 's3');
+                
             }
             if ($request->hasFile('imageThree')) {
-                $image->pathThree = $request->file('imageThree')->store('products', ['disk' => 'public']);
+                
+                $image->pathThree = $request->file('imageThree')->store('products', 's3');
+                
             }
 
-            // $path = $file = $request->file('image')->store('products', ['disk' => 'public']);
+          
             $product->image()->save($image);
         }
         
@@ -64,23 +70,29 @@ class AdminController extends Controller
 
     public function changeImage(Request $request, $id, $path) {
 
-
-        // dd($request->file('image'));
-
         if($request->hasFile('image')) {
             $product = Products::findOrFail($id);
 
-            Storage::disk('public')->delete($product->image->$path);
-            // dump($product->image->$path);
-            // die();
-            $product->image->$path = $request->file('image')->store('products', ['disk' => 'public']);
-            $product->image->save();
-    
-        }
+            if($product->image) {
 
+                if($product->image->$path) {
+                    Storage::disk('s3')->delete($product->image->$path);
 
+                }
        
+                $product->image->$path = $request->file('image')->store('products', 's3');
 
+                $product->image->save();
+            } else {
+                $image = new Image();
+
+                $image->$path = $request->file('image')->store('products', 's3');
+                
+
+                $image->save();
+                $product->image()->save($image);
+            }
+        }
         return redirect()->route('admin.productDetails', $id);
     }
 

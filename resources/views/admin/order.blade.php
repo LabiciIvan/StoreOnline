@@ -6,60 +6,68 @@
   <div class="d-flex flex-column w-100 h-100  align-items-center text-center mt-4 p-1">
     <h5 class="bg-warning">Placed Orders</h5>
 
-    <div class="d-flex flex-row w-75 h-100 justify-content-center border border-primary p-1">
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Date</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Name</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Phone</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Address</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:23%"><h5 class="me-1 w-100">Order</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">totalPrice</h5></div>
-      <div class="d-flex  justify-content-center ms-1 p-1" style="width:7%"><h5 class="ms-1 w-100">Confirm</h5></div>
-    </div>
-    @if($order)
-      @foreach ($order as $order)
-      <div class="d-flex flex-row w-75 h-100 justify-content-center border border-top-0 p-1">
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $order->created_at }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $order->name }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $order->phone }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $order->address }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:23%"><h5 class="me-1 w-100">{{ $order->order }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="ms-1 w-100">{{ $order->totalPrice }}</h5></div>
-        <div class="d-flex  justify-content-center ms-1 p-1" style="width:7%"><form action="{{ route('admin.confirmOrder', $order->id) }}" method="POST" class="d-flex justify-content-center w-100">@csrf<button type="submit" class="btn btn-primary w-10 "><i class="bi bi-check-lg"></i></button></form></div>
-      </div>        
-      @endforeach
-    @endif
+    <table class="table table-hover w-75 m-1">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Name</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Address</th>
+          <th scope="col">Order</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Payment</th>
+          <th scope="col">Confirm</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if ($order)
+          @foreach ($order as $order )
+          <tr>
+            <td>{{ $order->created_at }}</td>
+            <td>{{ $order->name }}</td>
+            <td>{{ $order->phone }}</td>
+            <td>{{ $order->address }}</td>
+            <td>{{ $order->order }}</td>
+            <td>{{ $order->totalPrice }}</td>
+            <td>{{ $order->payment }}</td>
+            <td><form action="{{ route('admin.confirmOrder', $order->id) }}" method="POST" class="d-flex justify-content-center w-100">@csrf<button type="submit" class="btn btn-primary w-10 "><i class="bi bi-check-lg"></i></button></form></td>
+          </tr>
+          @endforeach
+        @endif
+      </tbody>
+    </table>
   </div>
 
   <div class="d-flex flex-column w-100 h-100  align-items-center text-center mt-4 p-1" >
     <h5 class="bg-warning">Confirmed Orders</h5>
-    @if ($confirmedOrders)
-      <div class="d-flex flex-column w-100 h-100  align-items-center text-center mt-4 p-1">
-  
 
-    <div class="d-flex flex-row w-75 h-100 justify-content-center border border-primary p-1">
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Date</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Name</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Phone</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">Address</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:23%"><h5 class="me-1 w-100">Order</h5></div>
-      <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">totalPrice</h5></div>
-      <div class="d-flex  justify-content-center ms-1 p-1" style="width:7%"><h5 class="ms-1 w-100">Confirm</h5></div>
-    </div>
-    @if($order)
-      @foreach ($confirmedOrders as $ordersConfirmed)
-      <div class="d-flex flex-row w-75 h-100 justify-content-center border border-top-0 p-1">
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $ordersConfirmed->created_at }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $ordersConfirmed->name }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $ordersConfirmed->phone }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="me-1 w-100">{{ $ordersConfirmed->address }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:23%"><h5 class="me-1 w-100">{{ $ordersConfirmed->order }}</h5></div>
-        <div class="d-flex  border-end border-secondary justify-content-center me-1 p-1" style="width:14%"><h5 class="ms-1 w-100">{{ $ordersConfirmed->totalPrice }}</h5></div>
-        <div class="d-flex  justify-content-center ms-1 p-1" style="width:7%">YES</div>
-      </div>        
-      @endforeach
-    @endif
-  </div>
-
-    @endif
+    <table class="table table-hover w-75">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Name</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Address</th>
+          <th scope="col">Order</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Payment</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if ($confirmedOrders)
+          @foreach ($confirmedOrders as $ordersConfirmed )
+          <tr>
+            <td>{{ $ordersConfirmed->created_at }}</td>
+            <td>{{ $ordersConfirmed->name }}</td>
+            <td>{{ $ordersConfirmed->phone }}</td>
+            <td>{{ $ordersConfirmed->address }}</td>
+            <td>{{ $ordersConfirmed->order }}</td>
+            <td>{{ $ordersConfirmed->totalPrice }}</td>
+            <td>{{ $ordersConfirmed->payment }}</td>
+          </tr>
+          @endforeach
+        @endif
+      </tbody>
+    </table>
   </div>
 @endsection

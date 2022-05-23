@@ -8,20 +8,22 @@
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
   <div class="carousel-inner">
+    @if($productImage)
     @if($productImage->pathOne)
     <div class="carousel-item active w-100">
-      <img src="{{ Storage::url($productImage->pathOne) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
+      <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathOne) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
     </div>
     @endif
     @if($productImage->pathTwo)
     <div class="carousel-item">
-      <img src="{{ Storage::url($productImage->pathTwo) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
+      <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathTwo) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
     </div>
     @endif
     @if($productImage->pathThree)
     <div class="carousel-item">
-      <img src="{{ Storage::url($productImage->pathThree) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
+      <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathThree) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
     </div>
+    @endif
     @endif
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

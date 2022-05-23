@@ -8,6 +8,10 @@
   color: red;
 }
 
+#imageIndex {
+  object-fit: contain;
+}
+
 
 /* #replayForm{
   cursor: pointer;
