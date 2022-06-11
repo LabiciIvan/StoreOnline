@@ -6,6 +6,12 @@
 @endsection
 
 @section('content')
+
+@php
+ use Illuminate\Support\Facades\Session;
+ use Illuminate\Support\Facades\Auth;
+ use Illuminate\Support\Facades\Storage;
+@endphp
     <div class="d-flex flex-column w-100 h-100 mt-4">
 
         <div class="d-flex flex-row w-100 h-25 justify-content-center mt-1" >
@@ -199,4 +205,64 @@
 
         </div>
     </div>
+
+
+    <div class="section-number-one">
+
+
+        <div class="image-collection">
+
+            <div class="image-collection-img">
+                @if($productImage)
+                @if($productImage->pathOne)
+                <img src="{{ Storage::disk('s3')->url($productImage->pathOne) }}">
+                @endif
+                @endif
+    
+            </div>
+            
+            <div class="image-collection-img two">
+                @if($productImage)
+                @if($productImage->pathTwo)
+                <img src="{{ Storage::disk('s3')->url($productImage->pathTwo) }}">
+                @endif
+                @endif
+    
+            </div>
+            
+            <div class="image-collection-img three">
+                @if($productImage)
+                @if($productImage->pathThree)
+                <img src="{{ Storage::disk('s3')->url($productImage->pathThree) }}">
+                @endif
+                @endif
+    
+            </div>
+        </div>
+
+
+        <div class="product-menu">
+
+            <div class="product-menu-data name">
+                <p class="product-menu-name">{{ $product['name'] }}</p>
+            </div>
+
+            <div class="product-menu-data review">
+                <p>Reviews {{ $reviews->reviews_count }}</p>
+                <p>Items left {{ $product['stock'] }}</p>
+            </div>
+
+            <div class="product-menu-data command">
+                <form action="{{ route('user.show.addCart', $product->id) }}" method="POST">
+                @csrf
+                <button class="add-cart-button" type="submit">Add cart</button>
+            </form>
+                <a class="go-to-reviews" href="">Add Review</a>
+            </div>
+
+        </div>
+
+
+    </div>
+
 @endsection

@@ -1,4 +1,6 @@
-
+<?php 
+use Illuminate\Support\Facades\Storage;
+?>
 
 
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -11,16 +13,19 @@
     @if($productImage)
     @if($productImage->pathOne)
     <div class="carousel-item active w-100">
+      {{-- <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathOne) }}" class="d-block " style="height: 400px; width:400px;" alt="..."> --}}
       <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathOne) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
     </div>
     @endif
     @if($productImage->pathTwo)
     <div class="carousel-item">
+      {{-- <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathTwo) }}" class="d-block " style="height: 400px; width:400px;" alt="..."> --}}
       <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathTwo) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
     </div>
     @endif
     @if($productImage->pathThree)
     <div class="carousel-item">
+      {{-- <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathThree) }}" class="d-block " style="height: 400px; width:400px;" alt="..."> --}}
       <img id="imageIndex" src="{{ Storage::disk('s3')->url($productImage->pathThree) }}" class="d-block " style="height: 400px; width:400px;" alt="...">
     </div>
     @endif

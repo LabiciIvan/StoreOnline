@@ -9,9 +9,11 @@ use App\Models\Orders;
 use App\Models\Reviews;
 use App\Http\Requests\StoreProduct;
 use App\Http\Requests\StoreReplay;
-use App\Models\Image;
+use App\Models\Imag;
 use App\Models\Replay;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Symfony\Component\Console\Input\Input;
 
 class AdminController extends Controller
 {
@@ -42,26 +44,71 @@ class AdminController extends Controller
         $product = Products::create($validateInput);
 
         if($request->hasFile('imageOne') || $request->hasFile('imageTwo') || $request->hasFile('imageThree')) {
-            $image = new Image(); // create a model
+            
+            $image = new Imag(); // create a model
 
             if ($request->hasFile('imageOne')) { // add every uploaded image path to a Image model field
-          
-                $image->pathOne = $request->file('imageOne')->store('products','s3');
-          
+
+                // $imageInput = $request->file('imageOne');
+                // $image->pathOne =  $imageInput->store('public/pictures');
+                // $image->save();
+
+                $file = $request->file('imageOne');
+
+                $name = hash('md5', $file->getClientOriginalName());
+                // $img = Image::make($file)->encode()->save(storage_path('app/public/pictures/' . $name . '.jpg')); // SAVE LOCALY
+                $img = Image::make($file)->encode()->stream();
+                
+                $pathToImage = 'public/pictures/' . $name . '.jpg';
+
+                Storage::disk('s3')->put($pathToImage, $img->__toString());
+
+                $image->pathOne = $pathToImage;
+                $image->save();
+ 
+      
             }
             if ($request->hasFile('imageTwo')) {
-             
-                $image->pathTwo = $request->file('imageTwo')->store('products', 's3');
-                
+
+                $file = $request->file('imageTwo');
+
+                $name = hash('md5', $file->getClientOriginalName());
+                // $img = Image::make($file)->resize('100','100')->encode()->save(storage_path('app/public/pictures/' . $name . '.jpg'));
+                $img = Image::make($file)->encode()->stream();
+
+                $pathToImage = 'public/pictures/' . $name . '.jpg';
+
+                Storage::disk('s3')->put($pathToImage, $img->__toString());
+                $image->pathTwo = $pathToImage;
+                $image->save();
+    
             }
             if ($request->hasFile('imageThree')) {
-                
-                $image->pathThree = $request->file('imageThree')->store('products', 's3');
+
+                // $imageInput = $request->file('imageThree');
+                // $image->make($imageInput);
+                // dd($image);
+                // $image->pathThree = $request->file('imageThree')->store('products', 's3');
+
+
+                $file = $request->file('imageThree');
+
+                $name = hash('md5', $file->getClientOriginalName());
+                // $img = Image::make($file)->encode()->save(storage_path('app/public/pictures/' . $name . '.jpg'));
+
+                $img = Image::make($file)->encode()->stream();
+
+
+                $pathToImage = 'public/pictures/' . $name . '.jpg';
+
+                Storage::disk('s3')->put($pathToImage, $img->__toString());
+                $image->pathThree = $pathToImage;
+                $image->save();
                 
             }
 
           
-            $product->image()->save($image);
+            $product->imag()->save($image);
         }
         
         return redirect()->route('admin.product');
@@ -73,24 +120,50 @@ class AdminController extends Controller
         if($request->hasFile('image')) {
             $product = Products::findOrFail($id);
 
-            if($product->image) {
+            if($product->imag) {
 
-                if($product->image->$path) {
-                    Storage::disk('s3')->delete($product->image->$path);
+                if($product->imag->$path) {
+                    Storage::disk('s3')->delete($product->imag->$path);
+
+                    // Storage::delete($product->imag->$path);
 
                 }
        
-                $product->image->$path = $request->file('image')->store('products', 's3');
+                // $product->imag->$path = $request->file('image')->store('products', 's3');
+                // $product->imag->save();
 
-                $product->image->save();
+                $file =  $request->file('image');
+                $name = hash('md5', $file->getClientOriginalName());
+                // $img = Image::make($file)->encode()->save(storage_path('app/public/pictures/' . $name . '.jpg'));
+
+
+                $pathToImage = 'public/pictures/' . date("Y-m-d H:i:s") . '-' . $name . '.jpg';
+
+                $img = Image::make($file)->encode()->stream();
+
+                Storage::disk('s3')->put($pathToImage, $img->__toString());
+
+                $product->imag->$path = $pathToImage;
+                $product->imag->save();
             } else {
-                $image = new Image();
+                $image = new Imag();
 
-                $image->$path = $request->file('image')->store('products', 's3');
+                $file =  $request->file('image');
+                $name = hash('md5', $file->getClientOriginalName());
+                // $img = Image::make($file)->encode()->save(storage_path('app/public/pictures/' . $name . '.jpg'));
+
+
+                $pathToImage = 'public/pictures/' . time() . '-' . $name . '.jpg';
+
+                $img = Image::make($file)->encode()->stream();
+
+                Storage::disk('s3')->put($pathToImage, $img->__toString());
+
+                $image->$path = $pathToImage;
                 
 
                 $image->save();
-                $product->image()->save($image);
+                $product->imag()->save($image);
             }
         }
         return redirect()->route('admin.productDetails', $id);
@@ -117,8 +190,9 @@ class AdminController extends Controller
 
         $this->authorize('isAdmin');
 
-        $product = Products::with('reviews')->findOrFail($id);
+        $product = Products::with('reviews', 'replay')->findOrFail($id);
 
+        $product->replay()->delete();
         $product->reviews()->delete();
         $product->delete();
 

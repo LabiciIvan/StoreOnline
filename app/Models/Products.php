@@ -24,8 +24,8 @@ class Products extends Model
         return $this->hasMany('App\Models\Replay');
     }
 
-    public function image() {
-        return $this->hasOne('App\Models\Image');
+    public function imag() {
+        return $this->hasOne('App\Models\Imag');
     }
 
     use HasFactory;

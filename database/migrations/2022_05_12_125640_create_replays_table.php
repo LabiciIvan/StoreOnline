@@ -22,10 +22,10 @@ return new class extends Migration
             $table->string('user_Id');
 
             $table->unsignedInteger('reviews_id')->nullable();
-            $table->foreign('reviews_id')->references('id')->on('reviews');
+            $table->foreign('reviews_id')->references('id')->on('reviews')->onDelete('cascade');
 
             $table->unsignedInteger('products_id')->nullable();
-            $table->foreign('products_id')->references('id')->on('products');
+            $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade');
 
         });
     }

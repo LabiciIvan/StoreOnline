@@ -3,6 +3,10 @@
 @section('title', 'Shopping Cart')
 
 @section('content')
+@php
+ use Illuminate\Support\Facades\Session;
+ use Illuminate\Support\Facades\Auth;
+@endphp
 
 <div class="d-flex flex-row w-100 h-100 justify-content-center p-2 mt-4">
 

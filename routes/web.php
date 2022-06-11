@@ -71,10 +71,10 @@ Route::prefix('/user')->name('user.')->group(function () {
     Route::get('/viewCart', [UserController::class, 'viewCart'])
         ->name('viewCart');
 
-    Route::post('/increaseQuantity{id}', [UserController::class, 'increaseQuantity'])
+    Route::post('/increaseQuantity/{id}', [UserController::class, 'increaseQuantity'])
         ->name('increaseQuantity');
 
-    Route::post('/decreaseQuantity{id}', [UserController::class, 'decreaseQuantity'])
+    Route::post('/decreaseQuantity/{id}', [UserController::class, 'decreaseQuantity'])
         ->name('decreaseQuantity');
 
     Route::delete('/removeFromCart{id}', [UserController::class, 'removeFromCart'])

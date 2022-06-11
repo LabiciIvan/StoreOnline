@@ -3,6 +3,10 @@
 @section('title', 'Admin Order')
 
 @section('content')
+@php
+ use Illuminate\Support\Facades\Session;
+ use Illuminate\Support\Facades\Auth;
+@endphp
   <div class="d-flex flex-column w-100 h-100  align-items-center text-center mt-4 p-1">
     <h5 class="bg-warning">Placed Orders</h5>
 

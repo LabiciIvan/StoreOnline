@@ -6,6 +6,11 @@
 @endsection
 
 @section('content')
+@php
+ use Illuminate\Support\Facades\Session;
+ use Illuminate\Support\Facades\Auth;
+ use Illuminate\Support\Facades\Storage;
+@endphp
   <div class="d-flex flex-column  w-100 h-100 justify-content-center align-items-center">
 
     <div class="d-flex flex-column align-items-center w-75  h-100">
@@ -44,10 +49,10 @@
 
       <div class="container d-flex flex-row m-2">
         <div class="d-flex w-25  flex-row justify-content-end">
-          @if ($product->image)
+          @if ($product->imag)
               
-          @if ($product->image->pathOne)
-          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->image->pathOne)}}" alt="" style="width:200px; height:200px;">
+          @if ($product->imag->pathOne)
+          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->imag->pathOne)}}" alt="" style="width:200px; height:200px;">
           @endif
           @else
           <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
@@ -63,9 +68,9 @@
 
       <div class="container d-flex flex-row m-2">
         <div class="d-flex w-25  flex-row justify-content-end">
-          @if ($product->image)
-          @if ($product->image->pathTwo)
-            <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->image->pathTwo)}}" alt="" style="width:200px; height:200px;">
+          @if ($product->imag)
+          @if ($product->imag->pathTwo)
+            <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->imag->pathTwo)}}" alt="" style="width:200px; height:200px;">
             @endif
             @else
             <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">
@@ -81,9 +86,9 @@
 
       <div class="container d-flex flex-row m-2">
         <div class="d-flex w-25  flex-row justify-content-end">
-          @if ($product->image)
-          @if ($product->image->pathThree)
-          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->image->pathThree)}}" alt="" style="width:200px; height:200px;">
+          @if ($product->imag)
+          @if ($product->imag->pathThree)
+          <img class="m-1 border-bottom border-start border-secondary mb-0" src="{{Storage::disk('s3')->url($product->imag->pathThree)}}" alt="" style="width:200px; height:200px;">
           @endif
           @else
           <img class="m-1 border-bottom border-start border-secondary mb-0" src="..." alt="" style="width:200px; height:200px;">

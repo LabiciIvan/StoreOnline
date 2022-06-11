@@ -3,6 +3,10 @@
 @section('title', 'Admin Product')
 
 @section('content')
+@php
+ use Illuminate\Support\Facades\Session;
+ use Illuminate\Support\Facades\Auth;
+@endphp
   
 
   <div class="d-flex flex-column align-items-center">

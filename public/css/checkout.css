@@ -1,0 +1,136 @@
+.checkout-section {
+    margin-top: 50px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.checkout-section-left {
+    width: 30%;
+    display: flex;
+    background-color: rgb(52, 51, 51);
+    margin-right: 5px;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    border-radius: 10px;
+
+}
+
+.place-order-button {
+    background-color: rgb(255, 238, 0);
+    border:none;
+    font-size: 1.2rem;
+    color: rgb(52, 51, 51);
+}
+
+.checkout-section-right {
+    width: 30%;
+    display: flex;
+    background-color:rgb(52, 51, 51);
+    margin-left: 5px;
+    height: 500px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.checkout-section-right:hover {
+    border: 1px solid rgb(255, 238, 0);
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.checkout-section-left-products {
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgb(142, 142, 142);
+    border-radius: 5px;
+    align-items: center;
+}
+
+.checkout-section-left-products > p {
+    width: 20%;
+}
+
+.checkout-section-left-products:hover {
+    border: 1px solid rgb(255, 238, 0);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.checkout-section-right-payment {
+    width: 100%;
+    background-color:rgb(142, 142, 142);
+    border-radius: 10px;
+}
+
+.checkout-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout-form > input,
+.checkout-form > select, 
+.checkout-form > textarea {
+
+    width: 80%;
+    height: 40px;
+    
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.error-border {
+    border-color: red;
+}
+
+.group-icon-button {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.group-icon-button > input {
+    /* margin-top: 15px; */
+    width: 90%;
+    margin-left: 5px;
+    border-radius: 10px;
+}
+
+.group-icon-button > input:hover {
+    color:black ;
+    transition: 0.4s;
+}
+
+.checkout-form > label {
+    font-size: 1.2rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(52, 51, 51);
+}
+
+.fa-solid.fa-angles-right {
+    font-size: 1.2rem;
+}
+
+.fa-solid.fa-angles-right:hover {
+    font-size: 1.5rem;
+    transition: 0.3s;
+}
+
+.error-field {
+    font-size: 0.6rem;
+    color: red
+}

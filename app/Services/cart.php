@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace app\Services;
 
 use Illuminate\Support\Facades\Session;
 use App\Models\Products;
@@ -96,15 +96,31 @@ class Cart {
       $notAdded = true;
       $quantity = 1;
 
-      $toSession = [
-        'id' => $product->id,
-        'name' => $product->name,
-        'price' => $product->price,
-        'stock' => $product->stock,
-        'quantity' => $quantity,
-        'totalPrice' => $quantity * $product->price
+      if (isset($product['imag']['pathOne'])) {
+        $toSession = [
+          'id' => $product->id,
+          'name' => $product->name,
+          'price' => $product->price,
+          'stock' => $product->stock,
+          'quantity' => $quantity,
+          'totalPrice' => $quantity * $product->price,
+          'image' =>$product['imag']['pathOne']
+  
+      ];
+      } else {
+        
+        $toSession = [
+          'id' => $product->id,
+          'name' => $product->name,
+          'price' => $product->price,
+          'stock' => $product->stock,
+          'quantity' => $quantity,
+          'totalPrice' => $quantity * $product->price,
+      ];
+      }
+      // dd($product['imag']['pathOne']->exists());
 
-    ];
+    // dd($toSession);
 
     if(Session::has('product')) {
         foreach(Session::get('product') as $key => $value) {

@@ -19,3 +19,17 @@
   cursor: pointer;
   color: rgb(255, 200, 0);
 }
+
+#product-link:hover,
+#order-link:hover {
+  color: rgb(255, 200, 0);
+  font-weight: 700;
+
+}
+
+
+#log-out-icon:hover {
+  color: black;
+
+}
+

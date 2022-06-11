@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('imags', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
-            $table->string('pathOne')->nullable();
-            $table->string('pathTwo')->nullable();
-            $table->string('pathThree')->nullable();
-            $table->unsignedInteger('products_id')->nullable();
+            $table->string('pathOne')->default('0');
+            $table->string('pathTwo')->default('0');
+            $table->string('pathThree')->default('0');
+            $table->unsignedInteger('products_id')->nullable()->onDelete('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('imags');
     }
 };

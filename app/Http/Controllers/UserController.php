@@ -9,9 +9,8 @@ use App\Models\Products;
 use App\Models\Orders;
 use App\Models\User;
 use App\Http\Requests\StoreOrders;
-use App\Http\Requests\StoreProduct;
 use App\Http\Requests\StoreProfile;
-use App\Services\Cart;
+use App\Services\cart;
 use App\Services\Search;
 
 class UserController extends Controller
@@ -28,9 +27,9 @@ class UserController extends Controller
 
     public function show($id) {
 
-        $images = Products::with('image')->findOrFail($id);
+        $images = Products::with('imag')->findOrFail($id);
         
-        $productImage = $images->image;
+        $productImage = $images->imag;
 
         return view('user.show', ['product' => Products::with('reviews')->findOrFail($id),
                                    'reviews' => Products::withCount('reviews')->findOrFail($id),
@@ -38,10 +37,11 @@ class UserController extends Controller
                                    ]);
     }
 
-    public function addCartIndex(Cart $cart, $id) {
+    public function addCartIndex(cart $cart, $id) {
 
-        $product = Products::findOrFail($id);
+        $product = Products::with('imag')->findOrFail($id);
         // $cart = resolve(Cart::class);
+        // dd($product);
         
         if ($cart->checkItemStock($product)) {
 
@@ -69,6 +69,9 @@ class UserController extends Controller
 
         $element = Session::get('product');
         // $cart = resolve(Cart::class);
+        if(!$element) {
+            Session::flash('cart', 'Your Cart is Empty');
+        }
 
         return view('user.cart',['element' => $element, 'total' =>$cart->totalCart($element)]);
     }
@@ -132,7 +135,7 @@ class UserController extends Controller
 
         if($resultSearch->isEmpty()) {
 
-            Session::flash('status', 'not found');
+            Session::flash('status', 'Product not found');
             return redirect()->route('user.index');
         }
 
